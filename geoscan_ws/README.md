@@ -1,5 +1,5 @@
-# geoscan_pioneer_max
-Geoscan Pioneer Max Repository
+# geoscan_ws
+Рабочая среда ROS
 
 ## Состав:
 * [classes](https://github.com/IlyaDanilenko/geoscan_pioneer_max/tree/master/geoscan_ws/classes) - Python3 классы
