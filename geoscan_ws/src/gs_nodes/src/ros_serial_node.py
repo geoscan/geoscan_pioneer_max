@@ -18,7 +18,7 @@ isWrite=False
 live=False
 log=[]
 
-def read():
+def read(n):
     global ser
     global isWrite
     global log
@@ -28,7 +28,7 @@ def read():
         while(s!=b'#'):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
-    log[len(log)-1]=log[len(log)-1]+" -->"+"["+str(time())+ "] response: "+out_msg
+    log[n]=log[n]+" -->"+"["+str(time())+ "] response: "+out_msg
     isWrite=False
     return out_msg
 
@@ -40,9 +40,10 @@ def send(msg):
         pass
     isWrite=True
     log.append("["+str(time())+"] reqest: "+msg)
+    n=len(log)-1
     msg="#"+msg+"&"
     ser.write(bytes(msg,'utf-8'))
-    return read()
+    return read(n)
 
 def handle_live(req):
     global live
@@ -301,7 +302,7 @@ s_gyro=Service("geoscan/sensors/gyro_service",Gyro,handle_gyro)
 s_acl=Service("geoscan/sensors/accel_service",Acl,handle_acl)
 s_ort=Service("geoscan/sensors/orientation_service",Ort,handle_ort)
 s_range=Service("geoscan/sensors/range_service",Range,handle_range)
-s_altitude=Serial("geoscan/sensors/altitude_service",Alt,handle_alt)
+s_altitude=Service("geoscan/sensors/altitude_service",Alt,handle_alt)
 
 while not rospy.is_shutdown():
     pass
