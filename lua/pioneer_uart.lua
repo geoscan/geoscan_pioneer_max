@@ -237,5 +237,7 @@ function callback(event)
 end
 
 t = Timer.new(sync, takeFunc)
-color(0,0,0) 
+write_msg("okp")
+color(0,0,0)
+lcolor(0,0,0) 
 t:start()
