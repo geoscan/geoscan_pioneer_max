@@ -18,7 +18,7 @@ isWrite=False
 live=False
 log=[]
 
-def read(n):
+def read(msg,logging=True):
     global ser
     global isWrite
     global log
@@ -28,22 +28,22 @@ def read(n):
         while(s!=b'#'):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
-    log[n]=log[n]+" -->"+"["+str(time())+ "] response: "+out_msg
+    if(logging):
+        log.append("["+str(time())+"] reqest: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg)
     isWrite=False
     return out_msg
 
-def send(msg):
+def send(l_msg):
     global ser
     global isWrite
     global log
     while (isWrite):
         pass
     isWrite=True
-    log.append("["+str(time())+"] reqest: "+msg)
-    n=len(log)-1
-    msg="#"+msg+"&"
+    msg="#"+l_msg+"&"
     ser.write(bytes(msg,'utf-8'))
-    return read(n)
+    log.append("["+str(time())+"] send: "+l_msg)
+    return read(l_msg)
 
 def handle_live(req):
     global live
@@ -55,7 +55,6 @@ def handle_log(req):
     while isWrite:
         pass
     s=LogResponse(log)
-    log=[]
     return s
 
 ev_msgs=("pre","tkff","land","darm")
@@ -73,14 +72,17 @@ for _ in range(0,25):
 
 alive=Service("geoscan/alive",Live,handle_live)
 logger=Service("geoscan/log_service",Log,handle_log)
-
 rospy.loginfo("wait connection ...")
-while (send("start-")!="ok"):
-    pass
-rospy.loginfo("board connect")
+tmp=""
+while (tmp!="ok"):
+    tmp=send("start-")
+    if(tmp=="okp"):
+        read("start-",logging=False)
+        break
 sleep(1)
-live=True
 num=send("bnum-")
+rospy.loginfo("board connect")
+live=True
 
 def handle_event(req):
     global sost_ev
