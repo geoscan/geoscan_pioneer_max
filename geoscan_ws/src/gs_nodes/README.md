@@ -35,6 +35,9 @@
 * geoscan/sensors/range_service (gs_service/Range) - возвращает данные c датчиков расстояния
 * geoscan/sensors/altitude_service (gs_service/Alt) - возвращает данные высоты по барометр
 
+#### Топики:
+* geoscan/log_topic (std_msgs/String) - возвращает последние сообщение в логе
+
 ## Необходимые пакеты:
 1. Python:
     * PySerial

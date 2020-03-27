@@ -6,7 +6,7 @@ from rospy import Service,Publisher
 from gs_service.msg import RGBgs
 from gs_service.srv import Event,EventResponse,Yaw,YawResponse,Pos,PosResponse,PosGPS,PosGPSResponse,Led,LedResponse,Info,InfoResponse,Time,TimeResponse,LpsPos,LpsPosResponse,LpsVel,LpsVelResponse,LpsYaw,LpsYawResponse,Range,RangeResponse,Gyro,GyroResponse,Acl,AclResponse,Ort,OrtResponse,Live,Log,LogResponse,Alt,AltResponse
 import serial
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool,String
 from time import sleep,time
 
 rospy.init_node("ros_serial_node")
@@ -22,6 +22,7 @@ def read(msg,logging=True):
     global ser
     global isWrite
     global log
+    global logger_pub
     out_msg=""
     if(ser.read()==b'&'):
         s=ser.read()
@@ -29,7 +30,9 @@ def read(msg,logging=True):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
     if(logging):
-        log.append("["+str(time())+"] reqest: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg)
+        log_msg="["+str(time())+"] reqest: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
+        log.append(log_msg)
+        logger_pub.publish(log_msg)
     isWrite=False
     return out_msg
 
@@ -37,12 +40,16 @@ def send(l_msg):
     global ser
     global isWrite
     global log
+    global logger_pub
+
     while (isWrite):
         pass
     isWrite=True
     msg="#"+l_msg+"&"
     ser.write(bytes(msg,'utf-8'))
-    log.append("["+str(time())+"] send: "+l_msg)
+    log_msg="["+str(time())+"] send: "+l_msg
+    log.append(log_msg)
+    logger_pub.publish(log_msg)
     return read(l_msg)
 
 def handle_live(req):
@@ -72,6 +79,7 @@ for _ in range(0,25):
 
 alive=Service("geoscan/alive",Live,handle_live)
 logger=Service("geoscan/log_service",Log,handle_log)
+logger_pub=Publisher("/geoscan/log_topic",String,queue_size=10)
 rospy.loginfo("wait connection ...")
 tmp=""
 while (tmp!="ok"):
