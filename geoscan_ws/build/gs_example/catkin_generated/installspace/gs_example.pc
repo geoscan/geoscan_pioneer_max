@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/geoscan_ws/install
-
-Name: gs_example
-Description: Description of gs_example
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

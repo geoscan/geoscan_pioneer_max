@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/geoscan_ws/devel
-
-Name: gs_nodes
-Description: Description of gs_nodes
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
