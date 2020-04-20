@@ -21,7 +21,7 @@
 1. Python:
     * gs_board
     * gs_flight
-    * gs_led
+    * gs_module
     * gs_logger
     * gs_sensors
 2. ROS:
