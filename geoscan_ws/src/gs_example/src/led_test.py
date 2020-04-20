@@ -3,7 +3,7 @@
 
 import rospy
 from gs_board import BoardManager
-from gs_led import BoardLedController
+from gs_module import BoardLedController
 from time import sleep
 
 rospy.init_node("led_test_node")
