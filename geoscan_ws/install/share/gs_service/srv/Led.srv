@@ -1,0 +1,5 @@
+RGBgs[] leds
+
+---
+
+bool status

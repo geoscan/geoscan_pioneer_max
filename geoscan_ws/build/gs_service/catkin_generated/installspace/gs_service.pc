@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/geoscan_ws/install
+
+Name: gs_service
+Description: Description of gs_service
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime

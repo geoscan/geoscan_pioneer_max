@@ -1,0 +1,8 @@
+[Unit]
+Description=Butterfly Terminal Server
+
+[Service]
+ExecStart=/usr/local/bin/wlan-butterfly.py
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+string tag_family
+int32 tag_id
+int32 hamming
+float32 goodness
+float32 decision_margin
+float32 center_x
+float32 center_y
+float32 x1
+float32 y1
+float32 x2
+float32 y2
+float32 x3
+float32 y3
+float32 x4
+float32 y4

@@ -6,7 +6,7 @@ from rospy import Service,Publisher
 from gs_service.msg import RGBgs
 from gs_service.srv import Event,EventResponse,Yaw,YawResponse,Pos,PosResponse,PosGPS,PosGPSResponse,Led,LedResponse,Info,InfoResponse,Time,TimeResponse,LpsPos,LpsPosResponse,LpsVel,LpsVelResponse,LpsYaw,LpsYawResponse,Range,RangeResponse,Gyro,GyroResponse,Acl,AclResponse,Ort,OrtResponse,Live,Log,LogResponse,Alt,AltResponse
 import serial
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool,String
 from time import sleep,time
 
 rospy.init_node("ros_serial_node")
@@ -18,31 +18,39 @@ isWrite=False
 live=False
 log=[]
 
-def read():
+def read(msg,logging=True):
     global ser
     global isWrite
     global log
+    global logger_pub
     out_msg=""
     if(ser.read()==b'&'):
         s=ser.read()
         while(s!=b'#'):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
-    log[len(log)-1]=log[len(log)-1]+" -->"+"["+str(time())+ "] response: "+out_msg
+    if(logging):
+        log_msg="["+str(time())+"] reqest: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
+        log.append(log_msg)
+        logger_pub.publish(log_msg)
     isWrite=False
     return out_msg
 
-def send(msg):
+def send(l_msg):
     global ser
     global isWrite
     global log
+    global logger_pub
+
     while (isWrite):
         pass
     isWrite=True
-    log.append("["+str(time())+"] reqest: "+msg)
-    msg="#"+msg+"&"
+    msg="#"+l_msg+"&"
     ser.write(bytes(msg,'utf-8'))
-    return read()
+    log_msg="["+str(time())+"] send: "+l_msg
+    log.append(log_msg)
+    logger_pub.publish(log_msg)
+    return read(l_msg)
 
 def handle_live(req):
     global live
@@ -54,7 +62,6 @@ def handle_log(req):
     while isWrite:
         pass
     s=LogResponse(log)
-    log=[]
     return s
 
 ev_msgs=("pre","tkff","land","darm")
@@ -72,14 +79,18 @@ for _ in range(0,25):
 
 alive=Service("geoscan/alive",Live,handle_live)
 logger=Service("geoscan/log_service",Log,handle_log)
-
+logger_pub=Publisher("/geoscan/log_topic",String,queue_size=10)
 rospy.loginfo("wait connection ...")
-while (send("start-")!="ok"):
-    pass
-rospy.loginfo("board connect")
+tmp=""
+while (tmp!="ok"):
+    tmp=send("start-")
+    if(tmp=="okp"):
+        read("start-",logging=False)
+        break
 sleep(1)
-live=True
 num=send("bnum-")
+rospy.loginfo("board connect")
+live=True
 
 def handle_event(req):
     global sost_ev
@@ -301,7 +312,7 @@ s_gyro=Service("geoscan/sensors/gyro_service",Gyro,handle_gyro)
 s_acl=Service("geoscan/sensors/accel_service",Acl,handle_acl)
 s_ort=Service("geoscan/sensors/orientation_service",Ort,handle_ort)
 s_range=Service("geoscan/sensors/range_service",Range,handle_range)
-s_altitude=Serial("geoscan/sensors/altitude_service",Alt,handle_alt)
+s_altitude=Service("geoscan/sensors/altitude_service",Alt,handle_alt)
 
 while not rospy.is_shutdown():
     pass

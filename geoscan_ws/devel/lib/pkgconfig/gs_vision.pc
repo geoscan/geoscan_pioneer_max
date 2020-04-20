@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/geoscan_ws/devel
+
+Name: gs_vision
+Description: Description of gs_vision
+Version: 0.0.0
+Cflags: -I/home/ubuntu/geoscan_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime
