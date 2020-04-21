@@ -8,3 +8,4 @@ Geoscan Pioneer Max Repository
 * [lua](https://github.com/IlyaDanilenko/geoscan_pioneer_max/tree/master/lua) - программы lua
 * [web-menu](https://github.com/IlyaDanilenko/geoscan_pioneer_max/tree/master/web-menu) - папка приложения web-menu
 * [linux_service](https://github.com/IlyaDanilenko/geoscan_pioneer_max/tree/master/linux_service) - папка с сервисами Linux
+* [lib_list](https://github.com/IlyaDanilenko/geoscan_pioneer_max/blob/master/lib_list.txt) - дополнительные пакеты Ubuntu
