@@ -1,0 +1,8 @@
+[Unit]
+Description=Geoscan Web-Menu
+
+[Service]
+ExecStart=/home/ubuntu/web-menu/start-wlan.sh
+
+[Install]
+WantedBy=multi-user.target

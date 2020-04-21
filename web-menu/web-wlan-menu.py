@@ -12,7 +12,7 @@ app=Flask(__name__)
 
 @app.route('/')
 def index():
-    return send_file('index.html')
+    return send_file('files/index.html')
 
 @app.route('/node')
 def get_nodes():
@@ -20,7 +20,7 @@ def get_nodes():
         nodes=get_node_names()
         return render_template('list.html',objects='Node',list=nodes)
     except:
-        return send_file('ros_error.html')
+        return send_file('files/ros_error.html')
 
 @app.route('/service')
 def get_services():
@@ -28,7 +28,7 @@ def get_services():
         services=get_service_list()
         return render_template('list.html',objects='Service',list=services)
     except:
-        return send_file('ros_error.html')
+        return send_file('files/ros_error.html')
 
 @app.route('/topic')
 def get_topic():
@@ -40,7 +40,7 @@ def get_topic():
             t.append(s)
         return render_template('list.html',objects='Topic',list=t)
     except:
-        return send_file('ros_error.html')
+        return send_file('files/ros_error.html')
 
 try:
     sleep(10)
