@@ -12,7 +12,8 @@ app=Flask(__name__)
 
 @app.route('/')
 def index():
-    return send_file('files/index.html')
+    global hostname
+    return render_template('index.html',host=hostname)
 
 @app.route('/node')
 def get_nodes():

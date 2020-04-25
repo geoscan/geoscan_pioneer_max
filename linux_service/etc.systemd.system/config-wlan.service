@@ -1,0 +1,8 @@
+[Unit]
+Description=Configuration wlan0
+
+[Service]
+ExecStart=/home/ubuntu/web-menu/config_wlan.sh
+
+[Install]
+WantedBy=network-online.target

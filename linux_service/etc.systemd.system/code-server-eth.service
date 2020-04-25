@@ -1,0 +1,8 @@
+[Unit]
+Description=Code Server
+
+[Service]
+ExecStart=/home/ubuntu/code-server/start-eth.sh
+
+[Install]
+WantedBy=multi-user.target
