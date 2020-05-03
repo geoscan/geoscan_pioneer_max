@@ -30,7 +30,7 @@ def read(msg,logging=True):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
     if(logging):
-        log_msg="["+str(time())+"] reqest: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
+        log_msg="["+str(time())+"] request: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
         log.append(log_msg)
         logger_pub.publish(log_msg)
     isWrite=False
@@ -158,7 +158,7 @@ def handle_board_led(req):
             if(leds[i]==leds[i+1]):
                 j+=1
         if(j==len(leds)):
-            msg="aled-"+str(int(leds[0].r))+"-"+str(int(leds[1].g))+"-"+str(int(leds[0].b))
+            msg="aled-"+str(int(leds[0].r))+"-"+str(int(leds[0].g))+"-"+str(int(leds[0].b))
             otv=send(msg)
             aled=True
         else:
@@ -191,7 +191,7 @@ def handle_module_led(req):
             if(leds[i]==leds[i+1]):
                 j+=1
         if(j==len(leds)):
-            msg="laled-"+str(int(leds[0].r))+"-"+str(int(leds[1].g))+"-"+str(int(leds[0].b))
+            msg="laled-"+str(int(leds[0].r))+"-"+str(int(leds[0].g))+"-"+str(int(leds[0].b))
             otv=send(msg)
             aled=True
         else:
@@ -296,7 +296,7 @@ def handle_alt(req):
     return AltResponse(0.)
 
 s_ew=Service("geoscan/flight/event_service",Event,handle_event)
-s_yw=Service("geoscan/flight/yaw",Yaw,handle_yaw)
+s_yw=Service("geoscan/flight/yaw_service",Yaw,handle_yaw)
 s_ps=Service("geoscan/flight/local_position_service",Pos,handle_local_pos)
 s_gps_ps=Service("geoscan/flight/gps_position_service",PosGPS,handle_gps_pos)
 s_led=Service("geoscan/led/board/control_service",Led,handle_board_led)
