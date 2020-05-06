@@ -15,7 +15,6 @@ add_message_files(
   ArUco_array.msg
 )
 
-## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
 #   Service1.srv

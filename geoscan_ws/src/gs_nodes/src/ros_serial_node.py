@@ -296,7 +296,7 @@ def handle_alt(req):
     return AltResponse(0.)
 
 s_ew=Service("geoscan/flight/event_service",Event,handle_event)
-s_yw=Service("geoscan/flight/yaw_service",Yaw,handle_yaw)
+s_yw=Service("geoscan/flight/yaw",Yaw,handle_yaw)
 s_ps=Service("geoscan/flight/local_position_service",Pos,handle_local_pos)
 s_gps_ps=Service("geoscan/flight/gps_position_service",PosGPS,handle_gps_pos)
 s_led=Service("geoscan/led/board/control_service",Led,handle_board_led)
