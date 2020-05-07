@@ -1,6 +1,4 @@
 
 ---
 
-float32 lpsVelX
-float32 lpsVelY
-float32 lpsVelZ
+geometry_msgs/Point lps_velocity

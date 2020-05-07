@@ -4,7 +4,8 @@
 import rospy
 from rospy import ServiceProxy
 from std_msgs.msg import Bool
-from gs_service.srv import Event,Yaw,Pos,PosGPS,Live
+from geometry_msgs.msg import Point
+from gs_service.srv import Event,Yaw,Position,PositionGPS,Live
 
 """
 0-preflight
@@ -24,13 +25,17 @@ class FlightController():
         self.__alive=ServiceProxy("geoscan/alive",Live)
         self.__ev_service=ServiceProxy("geoscan/flight/event_service",Event)
         self.__yw_service=ServiceProxy("geoscan/flight/yaw",Yaw)
-        self.__ps_service=ServiceProxy("geoscan/flight/local_position_service",Pos)
-        self.__gps_service=ServiceProxy("geoscan/flight/gps_position_service",PosGPS)
+        self.__ps_service=ServiceProxy("geoscan/flight/local_position_service",Position)
+        self.__gps_service=ServiceProxy("geoscan/flight/gps_position_service",PositionGPS)
     
     def goToLocalPoint(self,x,y,z,time=0):
         if(self.__alive().status):
             while True:
-                status=self.__ps_service(x,y,z,time).status
+                point=Point()
+                point.x=x
+                point.y=y
+                point.z=z
+                status=self.__ps_service(point,time).status
                 if(status):
                     break
         else:
