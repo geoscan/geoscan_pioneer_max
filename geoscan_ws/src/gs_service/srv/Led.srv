@@ -1,4 +1,4 @@
-RGBgs[] leds
+std_msgs/ColorRGBA[] leds
 
 ---
 

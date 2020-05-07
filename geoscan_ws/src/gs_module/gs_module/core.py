@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from gs_service.msg import RGBgs
 from gs_service.srv import Led,Live
 from rospy import ServiceProxy
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool,ColorRGBA
 
 class BoardLedController():
     def __init__(self):
         self.__leds=[]
         for _ in range(0,4):
-            self.__leds.append(RGBgs(False,False,False))
+            self.__leds.append(ColorRGBA())
         rospy.wait_for_service("geoscan/alive")
         rospy.wait_for_service("geoscan/led/board/control_service")
         self.__alive=ServiceProxy("geoscan/alive",Live)
@@ -22,7 +21,11 @@ class BoardLedController():
             while True:
                 try:
                     if ((r==0 or r==1) and (g==0 or g==1) and (b==0 or b==1)):
-                        self.__leds[i]=RGBgs(bool(r),bool(g),bool(b))
+                        color=ColorRGBA()
+                        color.r=r
+                        color.g=g
+                        color.b=b
+                        self.__leds[i]=color
                         status=self.__led_service(self.__leds).status
                         if(status):
                             break
@@ -40,7 +43,11 @@ class BoardLedController():
             while True:
                 if ((r==0 or r==1) and (g==0 or g==1) and (b==0 or b==1)):
                     for i in range(0,len(self.__leds)):
-                        self.__leds[i]=RGBgs(bool(r),bool(g),bool(b))
+                        color=ColorRGBA()
+                        color.r=r
+                        color.g=g
+                        color.b=b
+                        self.__leds[i]=color
                     status=self.__led_service(self.__leds).status
                     if(status):
                         break
@@ -54,7 +61,7 @@ class ModuleLedController():
     def __init__(self):
         self.__leds=[]
         for _ in range(0,25):
-            self.__leds.append(RGBgs(False,False,False))
+            self.__leds.append(ColorRGBA())
         rospy.wait_for_service("geoscan/alive")
         rospy.wait_for_service("geoscan/led/module/controll_service")
         self.__alive=ServiceProxy("geoscan/alive",Live)
@@ -65,7 +72,11 @@ class ModuleLedController():
             while True:
                 try:
                     if ((r==0 or r==1) and (g==0 or g==1) and (b==0 or b==1)):
-                        self.__leds[i]=RGBgs(bool(r),bool(g),bool(b))
+                        color=ColorRGBA()
+                        color.r=r
+                        color.g=g
+                        color.b=b
+                        self.__leds[i]=color
                         status=self.__led_service(self.__leds).status
                         if(status):
                             break
@@ -83,7 +94,11 @@ class ModuleLedController():
             while True:
                 if ((r==0 or r==1) and (g==0 or g==1) and (b==0 or b==1)):
                     for i in range(0,len(self.__leds)):
-                        self.__leds[i]=RGBgs(bool(r),bool(g),bool(b))
+                        color=ColorRGBA()
+                        color.r=r
+                        color.g=g
+                        color.b=b
+                        self.__leds[i]=color
                     status=self.__led_service(self.__leds).status
                     if(status):
                         break

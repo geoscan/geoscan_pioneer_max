@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from gs_service.srv import LpsPos,LpsVel,LpsYaw,Gyro,Acl,Ort,Live,Range,Alt
+from gs_service.srv import LpsPos,LpsVel,LpsYaw,Gyro,Accel,Orientation,Live,Range,Altitude
+from geometry_msgs.msg import Point
 from rospy import ServiceProxy
 from std_msgs.msg import Bool
 
@@ -22,15 +23,15 @@ class SensorManager():
         self.__lpsvel_service=ServiceProxy("geoscan/sensors/lpsvel_service",LpsVel)
         self.__lpsyaw_service=ServiceProxy("geoscan/sensors/lpsyaw_service",LpsYaw)
         self.__gyro_service=ServiceProxy("geoscan/sensors/gyro_service",Gyro)
-        self.__accel_service=ServiceProxy("geoscan/sensors/accel_service",Acl)
-        self.__orientation_service=ServiceProxy("geoscan/sensors/orientation_service",Ort)
+        self.__accel_service=ServiceProxy("geoscan/sensors/accel_service",Accel)
+        self.__orientation_service=ServiceProxy("geoscan/sensors/orientation_service",Orientation)
         self.__range_service=ServiceProxy("geoscan/sensors/range_service",Range)
-        self.__altitude_service=ServiceProxy("geoscan/sensors/altitude_service",Alt)
+        self.__altitude_service=ServiceProxy("geoscan/sensors/altitude_service",Altitude)
 
     def lpsPosition(self):
         if(self.__alive().status):
             otv=self.__lpspos_service()
-            return otv.lpsX,otv.lpsY,otv.lpsZ
+            return otv.lps_position.x,otv.lps_position.y,otv.lps_position.z
         else:
             rospy.loginfo("Wait, connecting to flight controller")
             return self.error_number,self.error_number,self.error_number
@@ -38,14 +39,14 @@ class SensorManager():
     def lpsVelocity(self):
         if(self.__alive().status):
             otv=self.__lpsvel_service()
-            return otv.lpsVelX,otv.lpsVelY,otv.lpsVelZ
+            return otv.lps_velocity.x,otv.lps_velocity.y,otv.lps_velocity.z
         else:
             rospy.loginfo("Wait, connecting to flight controller")
             return self.error_number,self.error_number,self.error_number
         
     def lpsYaw(self):
         if(self.__alive().status):
-            return self.__lpsyaw_service().yaw
+            return self.__lpsyaw_service().angle
         else:
             rospy.loginfo("Wait, connecting to flight controller")
             return self.error_number
@@ -53,7 +54,7 @@ class SensorManager():
     def gyro(self):
         if(self.__alive().status):
             otv=self.__gyro_service()
-            return otv.gx,otv.gy,otv.gz
+            return otv.gyro.x,otv.gyro.y,otv.gyro.z
         else:
             rospy.loginfo("Wait, connecting to flight controller")
             return self.error_number,self.error_number,self.error_number
@@ -61,7 +62,7 @@ class SensorManager():
     def accel(self):
         if(self.__alive().status):
             otv=self.__accel_service()
-            return otv.ax,otv.ay,otv.az
+            return otv.accel.x,otv.accel.y,otv.accel.z
         else:
             rospy.loginfo("Wait, connecting to flight controller")
             return self.error_number,self.error_number,self.error_number

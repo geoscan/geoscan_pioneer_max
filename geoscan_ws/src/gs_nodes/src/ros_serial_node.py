@@ -3,10 +3,10 @@
 
 import rospy
 from rospy import Service,Publisher
-from gs_service.msg import RGBgs
-from gs_service.srv import Event,EventResponse,Yaw,YawResponse,Pos,PosResponse,PosGPS,PosGPSResponse,Led,LedResponse,Info,InfoResponse,Time,TimeResponse,LpsPos,LpsPosResponse,LpsVel,LpsVelResponse,LpsYaw,LpsYawResponse,Range,RangeResponse,Gyro,GyroResponse,Acl,AclResponse,Ort,OrtResponse,Live,Log,LogResponse,Alt,AltResponse
+from gs_service.srv import Event,EventResponse,Yaw,YawResponse,Position,PositionResponse,PositionGPS,PositionGPSResponse,Led,LedResponse,Info,InfoResponse,Time,TimeResponse,LpsPos,LpsPosResponse,LpsVel,LpsVelResponse,LpsYaw,LpsYawResponse,Range,RangeResponse,Gyro,GyroResponse,Accel,AccelResponse,Orientation,OrientationResponse,Live,Log,LogResponse,Altitude,AltitudeResponse
 import serial
-from std_msgs.msg import Bool,String
+from std_msgs.msg import Bool,String,ColorRGBA
+from geometry_msgs.msg import Point
 from time import sleep,time
 
 rospy.init_node("ros_serial_node")
@@ -72,10 +72,10 @@ sost_gps_pos=[0.,0.,0.]
 sost_board_led=[]
 sost_module_led=[]
 for _ in range(0,4):
-    sost_board_led.append(RGBgs(False,False,False))
+    sost_board_led.append(ColorRGBA())
 
 for _ in range(0,25):
-    sost_module_led.append(RGBgs(False,False,False))
+    sost_module_led.append(ColorRGBA())
 
 alive=Service("geoscan/alive",Live,handle_live)
 logger=Service("geoscan/log_service",Log,handle_log)
@@ -110,44 +110,44 @@ def handle_event(req):
 
 def handle_yaw(req):
     global sost_yw
-    if(req.y!=sost_yw):
-        msg="updy-"+str(round(req.y,2))
+    if(req.angle!=sost_yw):
+        msg="updy-"+str(round(req.angle,2))
         otv=send(msg)
         if(otv=="updy"):
             status=True
         else:
             status=False
-        sost_yw=req.y
+        sost_yw=req.angle
         return YawResponse(status)
     return YawResponse(True)
 
 def handle_local_pos(req):
     global sost_pos
-    n_s=[req.x,req.y,req.z,req.time]
+    n_s=[req.position.x,req.position.y,req.position.z,req.time]
     if(n_s!=sost_pos):
-        msg="gtlp-"+str(round(req.x,2))+"-"+str(round(req.y,2))+"-"+str(round(req.z,2))+"-"+str(round(req.time,2))
+        msg="gtlp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))+"-"+str(round(n_s[3],2))
         otv=send(msg)
         if(otv=="gtlp"):
             status=True
         else:
             status=False
         sost_pos=n_s
-        return PosResponse(status)
-    return PosResponse(True)
+        return PositionResponse(status)
+    return PositionResponse(True)
 
 def handle_gps_pos(req):
     global sost_gps_pos
     n_s=[req.latitude,req.longitude,req.altitude]
     if(n_s!=sost_gps_pos):
-        msg="gtp-"+str(round(req.latitude,2))+"-"+str(round(req.longitude,2))+"-"+str(round(req.altitude,2))
+        msg="gtp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))
         otv=send(msg)
         if(otv=="gtp"):
             status=True
         else:
             status=False
         sost_gps_pos=n_s
-        return PosGPSResponse(status)
-    return PosGPSResponse(True)
+        return PositionGPSResponse(status)
+    return PositionGPSResponse(True)
 
 def handle_board_led(req):
     global sost_board_led
@@ -236,16 +236,24 @@ def handle_lps_pos(req):
     otv=send(msg)
     l=otv.split(":")
     if(l[0]=="lpspos"):
-        return LpsPosResponse(float(l[1]),float(l[2]),float(l[3]))
-    return LpsPosResponse(0.,0.,0.)
+        point=Point()
+        point.x=float(l[1])
+        point.y=float(l[2])
+        point.z=float(l[3])
+        return LpsPosResponse(point)
+    return LpsPosResponse(Point())
 
 def handle_lps_vel(req):
     msg="lpsvel-"
     otv=send(msg)
     l=otv.split(":")
     if(l[0]=="lpsvel"):
-        return LpsVelResponse(float(l[1]),float(l[2]),float(l[3]))
-    return LpsVelResponse(0.,0.,0.)
+        point=Point()
+        point.x=float(l[1])
+        point.y=float(l[2])
+        point.z=float(l[3])
+        return LpsVelResponse(point)
+    return LpsVelResponse(Point())
 
 def handle_lps_yaw(req):
     msg="lpsyaw-"
@@ -260,24 +268,32 @@ def handle_gyro(req):
     otv=send(msg)
     l=otv.split(":")
     if(l[0]=="gyro"):
-        return GyroResponse(float(l[1]),float(l[2]),float(l[3]))
-    return GyroResponse(0.,0.,0.)
+        point=Point()
+        point.x=float(l[1])
+        point.y=float(l[2])
+        point.z=float(l[3])
+        return GyroResponse(point)
+    return GyroResponse(Point())
 
 def handle_acl(req):
     msg="acl-"
     otv=send(msg)
     l=otv.split(":")
     if(l[0]=="acl"):
-        return AclResponse(float(l[1]),float(l[2]),float(l[3]))
-    return AclResponse(0.,0.,0.)
+        point=Point()
+        point.x=float(l[1])
+        point.y=float(l[2])
+        point.z=float(l[3])
+        return AccelResponse(point)
+    return AccelResponse(Point())
 
 def handle_ort(req):
     msg="ort-"
     otv=send(msg)
     l=otv.split(":")
     if(l[0]=="ort"):
-        return OrtResponse(float(l[1]),float(l[2]),float(l[3]))
-    return OrtResponse(0.,0.,0.)    
+        return OrientationResponse(float(l[1]),float(l[2]),float(l[3]))
+    return OrientationResponse(0.,0.,0.)    
 
 def handle_range(req):
     msg="range-"
@@ -292,13 +308,13 @@ def handle_alt(req):
     otv=send(msg)
     l=otv.split(":")
     if(l[0]=="alt"):
-        return AltResponse(float(l[1]))
-    return AltResponse(0.)
+        return AltitudeResponse(float(l[1]))
+    return AltitudeResponse(0.)
 
 s_ew=Service("geoscan/flight/event_service",Event,handle_event)
 s_yw=Service("geoscan/flight/yaw",Yaw,handle_yaw)
-s_ps=Service("geoscan/flight/local_position_service",Pos,handle_local_pos)
-s_gps_ps=Service("geoscan/flight/gps_position_service",PosGPS,handle_gps_pos)
+s_ps=Service("geoscan/flight/local_position_service",Position,handle_local_pos)
+s_gps_ps=Service("geoscan/flight/gps_position_service",PositionGPS,handle_gps_pos)
 s_led=Service("geoscan/led/board/control_service",Led,handle_board_led)
 s_lled=Service("geoscan/led/module/control_service",Led,handle_module_led)
 s_info=Service("geoscan/board/info_service",Info,handle_info)
@@ -309,10 +325,10 @@ s_lpspos=Service("geoscan/sensors/lpspos_service",LpsPos,handle_lps_pos)
 s_lpsvel=Service("geoscan/sensors/lpsvel_service",LpsVel,handle_lps_vel)
 s_lpsyaw=Service("geoscan/sensors/lpsyaw_service",LpsYaw,handle_lps_yaw)
 s_gyro=Service("geoscan/sensors/gyro_service",Gyro,handle_gyro)
-s_acl=Service("geoscan/sensors/accel_service",Acl,handle_acl)
-s_ort=Service("geoscan/sensors/orientation_service",Ort,handle_ort)
+s_acl=Service("geoscan/sensors/accel_service",Accel,handle_acl)
+s_ort=Service("geoscan/sensors/orientation_service",Orientation,handle_ort)
 s_range=Service("geoscan/sensors/range_service",Range,handle_range)
-s_altitude=Service("geoscan/sensors/altitude_service",Alt,handle_alt)
+s_altitude=Service("geoscan/sensors/altitude_service",Altitude,handle_alt)
 
 while not rospy.is_shutdown():
     pass
