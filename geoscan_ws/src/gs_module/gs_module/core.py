@@ -63,9 +63,9 @@ class ModuleLedController():
         for _ in range(0,25):
             self.__leds.append(ColorRGBA())
         rospy.wait_for_service("geoscan/alive")
-        rospy.wait_for_service("geoscan/led/module/controll_service")
+        rospy.wait_for_service("geoscan/led/module/control_service")
         self.__alive=ServiceProxy("geoscan/alive",Live)
-        self.__led_service=ServiceProxy("geoscan/led/module/controll_service",Led)
+        self.__led_service=ServiceProxy("geoscan/led/module/control_service",Led)
 
     def changeColor(self,i,r,g,b):
         if (self.__alive().status):
