@@ -151,14 +151,18 @@ function getFiles(){
 	);
 	function onSuccess(data){
 		names=data.name.split(",");
-		$("p").remove()
+		$("p").remove();
 		var l=`<p>Открыть проект:</p>`
 		$("#file_list").append(l);
-		var buttons=``;
-		for (n of names){
-			buttons=buttons+`<p><button href=\"http://10.0.0.31:2020/\" class=\"btn btn-outline-primary\" onclick=\"postOpen('${n}')">${n}</button></p>`;
+		if(names!="#@#"){
+			var buttons=``;
+			for (n of names){
+				buttons=buttons+`<p><button href=\"http://10.0.0.31:2020/\" class=\"btn btn-outline-primary\" onclick=\"postOpen('${n}')">${n}</button></p>`;
+			};
+			$("#file_list").append(buttons);
+		}else{
+			$("#file_list").append("<p>Проекты не найдены</p>")
 		};
-		$("#file_list").append(buttons);
 		var cancel=`<p><button class="btn btn-outline-danger text-truncate" display="inline-block" id="cancel_open" name="cancel" value="Отмена" type="button">Закрыть</button></p>`
 		$("#file_list").append(cancel);
 		showPrompt2();
@@ -178,14 +182,14 @@ function postSave(name){
 	},
 	onSuccess
 	);
-	function onSuccess(){
-		window.alert("Программа сохранена");
+	function onSuccess(data){
+		if(data.status==0){
+			window.alert("Программа сохранена");
+		}else if(data.status==1){
+			window.alert("Не допустимое имя проекта");
+		}
 		return;
 	}
-}
-
-function clear(){
-	$("#terminal").empty();
 }
 
 var blocklyArea = document.getElementById('blocklyArea');

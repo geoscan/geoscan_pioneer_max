@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 from flask import Flask, request, render_template, flash, redirect, url_for,jsonify
 import os
-# from pioneer import code_run
 import rospy
 from gs_board import *
 from gs_flight import *
 from gs_module import *
 from gs_sensors import *
 from gs_logger import *
+from time import sleep
 
 app = Flask(__name__)
 app.secret_key="pioneer"
@@ -22,14 +22,14 @@ def my_print(data):
 
 def code_run(code):
     rospy.init_node("pioneer_bricks_node")
-    # board = BoardManager()
-    # flight=FlightController()
-    # led_b=BoardLedController()
-    # led_m=ModuleLedController()
-    # sensors=SensorManager()
-    # log=Logger()
-    # led_b.changeAllColor(0,0,0)
-    # led_m.changeAllColor(0,0,0)
+    board = BoardManager()
+    flight=FlightController()
+    led_b=BoardLedController()
+    led_m=ModuleLedController()
+    sensors=SensorManager()
+    log=Logger()
+    led_b.changeAllColor(0,0,0)
+    led_m.changeAllColor(0,0,0)
     print = my_print
     msgs.append("Начало программы")
     exec(code)
@@ -56,13 +56,16 @@ def save():
     workspace=request.form['xml_text']
     name=request.form['name']
     code=request.form['code']
-    path = os.path.join("/home/ubuntu/pioneer-bricks/static/save/", name)
-    os.mkdir(path)
-    with open(path+"/"+name+".xml","w") as f:
-        f.write(workspace)
-    with open(path+"/"+name+".py","w") as f:
-        f.write(transform_code(code)) 
-    return "ok"
+    if(name!="#@#"):
+        path = os.path.join("/home/ubuntu/pioneer-bricks/static/save/", name)
+        os.mkdir(path)
+        with open(path+"/"+name+".xml","w") as f:
+            f.write(workspace)
+        with open(path+"/"+name+".py","w") as f:
+            f.write(transform_code(code))
+        return jsonify(status=0)
+    else:
+        return jsonify(status=1)
 
 @app.route('/new',methods=['POST'])
 def new():
@@ -88,7 +91,10 @@ def files():
     data=""
     for i in dirs:
         data=data+i+","
-    return jsonify(name=data[0:len(data)-1])
+    if(len(data[0:len(data)-1])==0):
+        return jsonify(name="#@#")
+    else:
+        return jsonify(name=data[0:len(data)-1])
 
 @app.route("/print")
 def pr():
@@ -100,4 +106,9 @@ def pr():
     except:
         return jsonify(msg="none")
 
-app.run(host="10.0.0.31", port=2020)
+try:
+    sleep(10)
+    hostname=os.popen('ip addr show eth0').read().split("inet ")[1].split("/")[0]
+    app.run(host=hostname,port=2020)
+except:
+    pass
