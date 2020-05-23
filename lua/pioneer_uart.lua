@@ -36,7 +36,7 @@ local function color(r,g,b)
 end
 
 local function lcolor(r,g,b) 
-    for i=0,4,1 do
+    for i=1,28,1 do
         leds:set(i,r,g,b)
     end
 end
