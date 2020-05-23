@@ -30,13 +30,13 @@ local altitude=Sensors.altitude
 
 
 local function color(r,g,b) 
-    for i=0,4,1 do
+    for i=0,3,1 do
         leds:set(i,r,g,b)
     end
 end
 
 local function lcolor(r,g,b) 
-    for i=5,28,1 do
+    for i=4,28,1 do
         leds:set(i,r,g,b)
     end
 end
