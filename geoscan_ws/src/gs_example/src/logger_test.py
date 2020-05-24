@@ -4,7 +4,7 @@
 import rospy
 from gs_board import BoardManager
 from gs_logger import Logger
-from gs_led import BoardLedController
+from gs_module import BoardLedController
 from time import sleep
 
 rospy.init_node("logger_test_node")
