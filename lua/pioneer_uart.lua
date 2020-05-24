@@ -26,7 +26,7 @@ local orientation = Sensors.orientation
 local range = Sensors.range
 local accel = Sensors.accel
 local rc = Sensors.rc
-local altitude=Sensors.altitude
+local altitude = Sensors.altitude
 
 
 local function color(r,g,b) 
