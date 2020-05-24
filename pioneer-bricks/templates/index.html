@@ -1,0 +1,202 @@
+<html lang="en">
+	<head>
+    <title>Pioneer Bricks</title>
+
+		<meta charset="UTF-8">
+    
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main1.css') }}">
+    <script src="{{ url_for('static',filename='blockly/blockly_compressed.js') }}"></script>
+		<script src="{{ url_for('static',filename='blockly/blocks_compressed.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/python_compressed.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/msg/js/ru.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/events_b.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/event.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/flight_b.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/flights.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/board_b.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/board.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/sensors_b.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/sensors.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/modules_b.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/modules.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/log_b.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/log.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/utils.js') }}"></script>
+    <script src="{{ url_for('static',filename='blockly/utils_b.js') }}"></script>
+  </head>
+  
+  <body>
+    <div id="prompt-form-container">
+      <form id="prompt-form">
+        <div class="form-group">
+          <label for="id-inp">Введите название файла</label>
+          <input class="form-control" id="id-inp" name="text" type="text">
+          <br>
+          <input class="btn btn-outline-success" value="Ok" type="submit">
+          <input class="btn btn-outline-danger" name="cancel" value="Отмена" type="button">
+        </div>
+      </form>
+    </div>
+
+    <div id="prompt-form-container-2">
+      <form id="prompt-form-2">
+        <div class="form-group" id="file_list">
+          <br>
+        </div>
+      </form>
+    </div>
+
+    <nav class="navbar navbar-light bg-light" display="inline-block">
+      <div class="form-inline">
+      <div class="navbar-brand">
+        <img src="{{ url_for('static',filename='img/Geoscan.svg')}}" width="200" height="50"/>
+      </div>
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Проект
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="http://10.0.0.31:2020/" id="new" onclick="postNew()">Новый</a>
+          <a class="dropdown-item" id="save">Сохранить</a>
+          <a class="dropdown-item" id="open" onclick="getFiles()">Открыть</a>
+        </div>
+      </div>
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Отладка
+        </a>
+        <div class="dropdown-menu scrollable-menu" aria-labelledby="navbarDropdown2" style="max-height: 350px; width: 100px;">
+          <dev class="list-group-item active">Сообщения:</dev>
+          <ul class="list-group" id="terminal" style="max-height: 250;">
+          </ul>
+        </div>
+      </div>
+    </div>
+      <div>
+        <button class="btn btn-success" onclick="postCode()">
+          <img src="{{ url_for('static',filename='img/Vj.svg') }}" width="100" height="25"/>
+        </button>
+      </div>
+
+    </nav>
+    <!-- <div class="dropdown-divider"></div> -->
+
+    <div id="blocklyArea"></div>
+    <div id="blocklyDiv" style="position: absolute"></div>
+    <div id="work" name="{{ xml_text }}"></div>
+
+    <xml id="toolbox" style="display: none">
+      <category name="Текст">
+        <block type="text"></block>
+        <block type="text_join"></block>
+        <block type="text_append"></block>
+        <block type="text_length"></block>
+        <block type="text_isEmpty"></block>
+        <block type="text_indexOf"></block>
+        <block type="text_charAt"></block>
+        <block type="text_getSubstring"></block>
+        <block type="text_changeCase"></block>
+        <block type="text_trim"></block>
+        <block type="text_print"></block>
+        <!-- <block type="alert_print"></block> -->
+        <block type="text_count"></block>
+        <block type="text_replace"></block>
+        <block type="text_reverse"></block>
+      </category>
+      <category name="Логика">
+        <block type="controls_if"></block>
+        <block type="controls_ifelse"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_null"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_boolean"></block>
+      </category>
+      <category name="Циклы">
+        <block type="controls_repeat_ext"></block>
+        <block type="controls_repeat"></block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for"></block>
+        <block type="controls_forEach"></block>
+        <block type="controls_flow_statements"></block>
+      </category>
+      <category name="Математика">
+        <block type="math_number"></block>
+        <block type="math_arithmetic"></block>
+        <block type="math_single"></block>
+        <block type="math_constant"></block>
+        <block type="math_number_property"></block>
+        
+        <block type="math_round"></block>
+        <block type="math_trig"></block>
+        <block type="math_on_list"></block>
+        <block type="math_modulo"></block>
+        <block type="math_constrain"></block>
+        <block type="math_random_int"></block>
+        <block type="math_random_float"></block>
+      </category>
+      <category name="Функции" custom="PROCEDURE"></category>
+      <category name="Переменные" custom="VARIABLE"></category>
+      <category name="Массивы">
+        <block type="lists_create_empty"></block>
+        <block type="lists_create_with"></block>
+        <block type="lists_repeat"></block>
+        <block type="lists_length"></block>
+        <block type="lists_isEmpty"></block>
+        <block type="lists_indexOf"></block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+        <block type="lists_getSublist"></block>
+        <block type="lists_sort"></block>
+        <block type="lists_split"></block>
+        <block type="lists_reverse"></block>
+      </category>
+      <category name="События">
+        <block type="preflight"></block>
+        <block type="take_off"></block>
+        <block type="landing"></block>
+        <block type="engines_disarm"></block>
+      </category>
+      <category name="Полет">
+        <block type="go_to_point"></block>
+        <block type="go_local_point"></block>
+        <block type="update_yaw"></block>
+      </category>
+      <category name="Бортовая информация">
+        <block type="board_number"></block>
+        <block type="run_status"></block>
+        <block type="time"></block>
+        <block type="delta_time"></block>
+        <block type="launch_time"></block>
+      </category>
+      <category name="Датчики">
+        <block type="lps_position"></block>
+        <block type="lps_velocity"></block>
+        <block type="lps_yaw"></block>
+        <block type="gyro"></block>
+        <block type="accel"></block>
+        <block type="altitude"></block>
+        <block type="orientation"></block>
+        <block type="range"></block>
+      </category>
+      <category name="Модули">
+        <block type="board_change"></block>
+        <block type="board_all"></block>
+        <block type="module_change"></block>
+        <block type="module_all"></block>
+      </category>
+      <category name="Логи">
+        <block type="log_all"></block>
+        <block type="log_last"></block>
+      </category>
+      <category name="Прочее">
+        <block type="sleep"></block>
+      </category>
+    </xml>
+    <script src="{{ url_for('static',filename='js/pioneer_brick.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,85 @@
+.navbar{
+	min-height: 65px;
+}
+
+.navbar-brand{
+	font-size: 26px;
+	text-align: center;
+}
+
+html{
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.blocklyTreeRow{
+	height: 28px;
+	line-height: 28px;
+	padding-right: 12px;
+}
+
+#blocklyArea{
+  height: 100%;
+}
+  
+#prompt-form {
+	display: inline-block;
+	padding: 0px 0px 0px 0px;
+	width: 250px;
+	background-color: whitesmoke;
+	vertical-align: middle;
+}
+  
+#prompt-form-container {
+	position: fixed;
+	z-index: 9999;
+	display: none;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+  
+#prompt-form-container:before {
+	display: inline-block;
+	height: 100%;
+	content: '';
+	vertical-align: middle;
+}
+
+#prompt-form-2 {
+	display: inline-block;
+	padding: 0px 0px 0px 0px;
+	width: 250px;
+	background-color: whitesmoke;
+	vertical-align: middle;
+}
+  
+#prompt-form-container-2 {
+	position: fixed;
+	z-index: 9999;
+	display: none;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+  
+#prompt-form-container-2:before {
+	display: inline-block;
+	height: 100%;
+	content: '';
+	vertical-align: middle;
+}
+
+.list-group{
+    max-height: 300px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
