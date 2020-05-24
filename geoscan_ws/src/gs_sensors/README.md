@@ -7,6 +7,9 @@
 Классы:
 * SensorManager
 
+Ноды:
+* ultrasonic_node.py
+
 ## Описание классов:
 
 ### 1. SensorManager
@@ -45,6 +48,18 @@
 * geoscan/sensors/orientation_service (gs_service/Ort)
 * geoscan/sensors/range_service (gs_service/Range)
 * geoscan/sensors/altitude_service (gs_service/Alt)
+
+## Описание нод:
+
+### 1. ultrasonic_node
+Нода ультрозвукового датчика HC-SR04
+
+#### Параметры:
+* trig - номер GPIO порта, соответствующий TRIG
+* echo - номер GPIO порта, соответствующий ECHO
+
+#### Топики
+* ultrasonic_sensor/trig_<номер TRIG порта>_echo\_<номер ECHO порта> (std_msgs/Float32)
 
 ## Необходимые пакеты:
 ROS:
