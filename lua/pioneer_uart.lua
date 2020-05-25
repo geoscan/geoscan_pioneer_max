@@ -87,101 +87,103 @@ end
 local function logic(data)
     st={}
     st=split(data,"-")
-    local code = st[1]
-    if(code=="start") then
-        write_msg("ok")
-        color(0,0,0)
-        lcolor(0,0,0)
-    elseif(code=="led") then
-        leds:set(st[2],tonumber(st[3]),tonumber(st[4]),tonumber(st[5]))
-        write_msg("led")
-    elseif(code=="aled") then
-        color(tonumber(st[2]),tonumber(st[3]),tonumber(st[4]))
-        write_msg("aled")
-    elseif(code=="lled") then
-        leds:set(st[2]+4,tonumber(st[3]),tonumber(st[4]),tonumber(st[5]))
-        write_msg("lled")
-    elseif(code=="laled") then
-        lcolor(tonumber(st[2]),tonumber(st[3]),tonumber(st[4]))
-        write_msg("laled")
-    elseif(code=="time")then
-        write_msg(convert(time()))
-    elseif(code=="dltm")then
-        write_msg(convert(deltaTime()))
-    elseif(code=="lntm")then
-        write_msg(convert(launchTime()))
-    elseif(code=="bnum")then
-        write_msg(tostring(boardNumber))
-    elseif(code=="eve")then
-        local evente = st[2]
-        if(evente == "0")then
-            ap.push(Ev.MCE_PREFLIGHT)
-            write_msg("pre")
-        elseif(evente == "1")then
-            ap.push(Ev.MCE_TAKEOFF)
-            write_msg("tkff")
-        elseif(evente == "2")then
-            ap.push(Ev.MCE_LANDING)
-            write_msg("land")
-        elseif(evente == "3")then
-            ap.push(Ev.ENGINES_DISARM)
-            write_msg("darm")
-        else
-            write_msg("event_err")
-        end
-    elseif(code=="gtlp")then
-        local x = tonumber(st[2])
-        local y = tonumber(st[3])
-        local z = tonumber(st[4])
-        local times = tonumber(st[5])
-        if(times==0)then
-            ap.goToLocalPoint(x,y,z)
-            write_msg("gtlp")
-        else
-            ap.goToLocalPoint(x,y,z,times)
-            write_msg("gtlp")
-        end
-    elseif(code=="gtp")then
-        local latitude=tonumber(st[2])
-        local longitude=tonumber(st[3])
-        local altitude=tonumber(st[4])
-        ap.goToPoint(latitude,longitude,altitude)
-        write_msg("gtp")
-    elseif(code=="updy")then
-        local yaw = tonumber(st[2])
-        ap.updateYaw(yaw)
-        write_msg("updy")
-    elseif(code=="lpspos")then
-        lpsX, lpsY, lpsZ = lpsPosition()
-        write_msg("lpspos:" .. convert(lpsX) .. ":" .. convert(lpsY) .. ":" .. convert(lpsZ))
-    elseif(code=="lpsvel")then
-        lpsVelX, lpsVelY, lpsVelZ = lpsVelocity()
-        write_msg("lpsvel:" .. convert(lpsVelX) .. ":" .. convert(lpsVelY) .. ":" .. convert(lpsVelZ))
-    elseif(code=="lpsyaw")then
-        yaw = lpsYaw()
-        write_msg("lpsyaw:" .. convert(yaw))
-    elseif(code=="ort")then
-        roll, pitch, azimuth = orientation()
-        write_msg("ort:" .. convert(roll) .. ":" .. convert(pitch) .. ":" .. convert(azimuth))
-    elseif(code=="acl")then
-        ax, ay, az = accel()
-        write_msg("acl:" .. convert(ax) .. ":" .. convert(ay) .. ":" .. convert(az))
-    elseif(code=="gyro")then
-        gx, gy, gz = gyro()
-        write_msg("gyro:" .. convert(gx) .. ":" .. convert(gy) .. ":" .. convert(gz))
-    elseif(code=="range")then
-        d1,d2,d3,d4,d5=range()
-        write_msg("range:" .. convert(d1)..":" .. convert(d2).. ":" .. convert(d3).. ":" .. convert(d4).. ":" .. convert(d5))
-    elseif(code=="alt")then
-        h=altitude()
-        write_msg("alt:" .. convert(h))
-    elseif(code=="dbg") then
-        if(tonumber(st[2]) == 1)then
-            event_debug = true
-            write_msg("debug-true")
-        else
-            event_debug = false
-            write_msg("debug-false")
+    if(#st~=0) then
+        local code = st[1]
+        if(code=="start") then
+            write_msg("ok")
+            color(0,0,0)
+            lcolor(0,0,0)
+        elseif(code=="led") then
+            leds:set(st[2],tonumber(st[3]),tonumber(st[4]),tonumber(st[5]))
+            write_msg("led")
+        elseif(code=="aled") then
+            color(tonumber(st[2]),tonumber(st[3]),tonumber(st[4]))
+            write_msg("aled")
+        elseif(code=="lled") then
+            leds:set(st[2]+4,tonumber(st[3]),tonumber(st[4]),tonumber(st[5]))
+            write_msg("lled")
+        elseif(code=="laled") then
+            lcolor(tonumber(st[2]),tonumber(st[3]),tonumber(st[4]))
+            write_msg("laled")
+        elseif(code=="time")then
+            write_msg(convert(time()))
+        elseif(code=="dltm")then
+            write_msg(convert(deltaTime()))
+        elseif(code=="lntm")then
+            write_msg(convert(launchTime()))
+        elseif(code=="bnum")then
+            write_msg(tostring(boardNumber))
+        elseif(code=="eve")then
+            local evente = st[2]
+            if(evente == "0")then
+                ap.push(Ev.MCE_PREFLIGHT)
+                write_msg("pre")
+            elseif(evente == "1")then
+                ap.push(Ev.MCE_TAKEOFF)
+                write_msg("tkff")
+            elseif(evente == "2")then
+                ap.push(Ev.MCE_LANDING)
+                write_msg("land")
+            elseif(evente == "3")then
+                ap.push(Ev.ENGINES_DISARM)
+                write_msg("darm")
+            else
+                write_msg("event_err")
+            end
+        elseif(code=="gtlp")then
+            local x = tonumber(st[2])
+            local y = tonumber(st[3])
+            local z = tonumber(st[4])
+            local times = tonumber(st[5])
+            if(times==0)then
+                ap.goToLocalPoint(x,y,z)
+                write_msg("gtlp")
+            else
+                ap.goToLocalPoint(x,y,z,times)
+                write_msg("gtlp")
+            end
+        elseif(code=="gtp")then
+            local latitude=tonumber(st[2])
+            local longitude=tonumber(st[3])
+            local altitude=tonumber(st[4])
+            ap.goToPoint(latitude,longitude,altitude)
+            write_msg("gtp")
+        elseif(code=="updy")then
+            local yaw = tonumber(st[2])
+            ap.updateYaw(yaw)
+            write_msg("updy")
+        elseif(code=="lpspos")then
+            lpsX, lpsY, lpsZ = lpsPosition()
+            write_msg("lpspos:" .. convert(lpsX) .. ":" .. convert(lpsY) .. ":" .. convert(lpsZ))
+        elseif(code=="lpsvel")then
+            lpsVelX, lpsVelY, lpsVelZ = lpsVelocity()
+            write_msg("lpsvel:" .. convert(lpsVelX) .. ":" .. convert(lpsVelY) .. ":" .. convert(lpsVelZ))
+        elseif(code=="lpsyaw")then
+            yaw = lpsYaw()
+            write_msg("lpsyaw:" .. convert(yaw))
+        elseif(code=="ort")then
+            roll, pitch, azimuth = orientation()
+            write_msg("ort:" .. convert(roll) .. ":" .. convert(pitch) .. ":" .. convert(azimuth))
+        elseif(code=="acl")then
+            ax, ay, az = accel()
+            write_msg("acl:" .. convert(ax) .. ":" .. convert(ay) .. ":" .. convert(az))
+        elseif(code=="gyro")then
+            gx, gy, gz = gyro()
+            write_msg("gyro:" .. convert(gx) .. ":" .. convert(gy) .. ":" .. convert(gz))
+        elseif(code=="range")then
+            d1,d2,d3,d4,d5=range()
+            write_msg("range:" .. convert(d1)..":" .. convert(d2).. ":" .. convert(d3).. ":" .. convert(d4).. ":" .. convert(d5))
+        elseif(code=="alt")then
+            h=altitude()
+            write_msg("alt:" .. convert(h))
+        elseif(code=="dbg") then
+            if(tonumber(st[2]) == 1)then
+                event_debug = true
+                write_msg("debug-true")
+            else
+                event_debug = false
+                write_msg("debug-false")
+            end
         end
     end
 end
@@ -203,7 +205,7 @@ local function takeFunc()
             packet[j] = inp 
             j=j+1
         end
-    elseif(inp == "#")then 
+    elseif(inp == "#")then
         is_taking = true
     end
 end
