@@ -41,7 +41,7 @@ def transform_code(code):
 @app.route('/')
 def block():
     global workspace
-    return render_template("index.html",xml_text=workspace)
+    return render_template("index.html",xml_text=workspace,hostn=hostname)
 
 @app.route('/run', methods=['POST'])
 def run():
