@@ -109,6 +109,6 @@ def pr():
 try:
     sleep(10)
     hostname=os.popen('ip addr show eth0').read().split("inet ")[1].split("/")[0]
-    app.run(host="192.168.0.148",port=2020)
+    app.run(host=hostname,port=2020)
 except:
     pass
