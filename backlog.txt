@@ -1,8 +1,12 @@
 При переходе с одного устройство на другой, и если ip адреса совпадают, возникают проблемы с отображением pioneer bricks в бразуре google chrome, что бы исправить ситуацию удалите кэш браузера
 
-Ev.CONTROL_FAIL доступен только после взлета
+Ev.CONTROL_FAIL (добавить как дебаг инфу) доступен только после взлета 
 
-Ev.SHOCK - бесполезен
+Ev.SHOCK, Ev.ENGINE_FAIL - проверить невозможно
+
+Ev.LOW_VOLTAGE2 - пока проверить не получилось
+
+Ev.SYNC_START, Ev.LOW_VOLTAGE1, Ev.POINT_DECELERATION - Скорее всего не нужно
 
 Добавить launch файл на ros_serial_node
 
