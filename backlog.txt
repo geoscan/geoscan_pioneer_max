@@ -2,6 +2,8 @@
 
 Ev.CONTROL_FAIL доступен только после взлета
 
+Ev.SHOCK - бесполезен
+
 Добавить launch файл на ros_serial_node
 
 Добавить инструкцию по Pioneer Bricks
