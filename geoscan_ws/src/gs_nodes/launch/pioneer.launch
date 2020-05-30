@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="gs_nodes" type="ros_serial_node.py" name="ros_serial_node">
+        <param name="port" value="/dev/ttyS0"/>
+    </node>
+</launch>
