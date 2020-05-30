@@ -3,3 +3,5 @@
 Добавить launch файл на ros_serial_node
 
 Добавить инструкцию по Pioneer Bricks
+
+Добавить в Web Menu Pioneer Bricks
