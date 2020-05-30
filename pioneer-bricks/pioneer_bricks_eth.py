@@ -90,7 +90,8 @@ def files():
     dirs=os.listdir("/home/ubuntu/pioneer-bricks/static/save/.")
     data=""
     for i in dirs:
-        data=data+i+","
+        if(i!='.save_directory'):
+            data=data+i+","
     if(len(data[0:len(data)-1])==0):
         return jsonify(name="#@#")
     else:
