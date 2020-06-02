@@ -5,9 +5,7 @@ local uartNum = 1
 local baudRate = 9600 
 local stopBits = 1
 local parity = Uart.PARITY_NONE
-local uart = Uart.new(uartNum, baudRate, parity, stopBits) 
-
-local event_debug = false
+local uart = Uart.new(uartNum, baudRate, parity, stopBits)
 
 local leds=Ledbar.new(29) 
 
@@ -77,11 +75,6 @@ end
 local function write_msg(msg)
     msg="&" .. msg .. "#"
     uart:write(msg,#msg)
-end
-
-local function write_event(e)
-    e="%" .. e .. "#"
-    uart:write(e,#e)
 end
 
 local function logic(data)
@@ -176,14 +169,6 @@ local function logic(data)
         elseif(code=="alt")then
             h=altitude()
             write_msg("alt:" .. convert(h))
-        elseif(code=="dbg") then
-            if(tonumber(st[2]) == 1)then
-                event_debug = true
-                write_msg("debug-true")
-            else
-                event_debug = false
-                write_msg("debug-false")
-            end
         end
     end
 end
@@ -212,15 +197,14 @@ end
 
 
 function callback(event)
-    if(event_debug)then
-        if(event == Ev.ENGINES_STARTED)then
-            write_msg("dbg-engst")
-        elseif(event == Ev.COPTER_LANDED)then
-            write_msg("dbg-cprlnd")
-        elseif(event == Ev.TAKEOFF_COMPLETE)then
-            write_msg("dbg-tkfcmplt")
-        elseif(event == Ev.POINT_REACHED)then
-            write_msg("dbg-pntrchd")
+    if(event == Ev.ENGINES_STARTED)then
+        write_msg("dbg-engst")
+    elseif(event == Ev.COPTER_LANDED)then
+        write_msg("dbg-cprlnd")
+    elseif(event == Ev.TAKEOFF_COMPLETE)then
+        write_msg("dbg-tkfcmplt")
+    elseif(event == Ev.POINT_REACHED)then
+        write_msg("dbg-pntrchd")
         -- elseif(event == Ev.LOW_VOLTAGE2)then
         --     write_msg("dbg-lowvolt2")
         -- elseif(event == Ev.SHOCK)then
@@ -229,7 +213,6 @@ function callback(event)
         --     write_msg("dbg-cfail")
         -- elseif(event == Ev.ENGINE_FAIL)then
         --     write_msg("dbg-efail")
-        end
     end
 end
 
