@@ -68,8 +68,8 @@ def handle_log(req):
     return s
 
 ev_msgs=("pre","tkff","land","darm")
-dpkg_msgs=("dbg-engst","dbg-tkfcmplt","dbg-pntrchd","dbg-cprlnd")
-ev_response={ev_msgs[0]:(dpkg_msgs[0]), ev_msgs[1]:(dpkg_msgs[1],dpkg_msgs[2]), ev_msgs[2]:(dpkg_msgs[3]), ev_msgs[3]:None}
+dbg_msgs=("dbg-engst","dbg-tkfcmplt","dbg-pntrchd","dbg-cprlnd")
+ev_response={ev_msgs[0]:(dbg_msgs[0]), ev_msgs[1]:(dbg_msgs[1],dbg_msgs[2]), ev_msgs[2]:(dbg_msgs[3]), ev_msgs[3]:None}
 sost_ev=-1
 sost_yw=0
 sost_pos=[0.,0.,0.,0.]
@@ -139,7 +139,7 @@ def handle_local_pos(req):
         msg="gtlp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))+"-"+str(round(n_s[3],2))
         otv=send(msg)
         if(otv=="gtlp"):
-            if(read("dbg")==dpkg_msgs[2]):
+            if(read("dbg")==dbg_msgs[2]):
                 status=True
             else:
                 status=False
@@ -156,7 +156,7 @@ def handle_gps_pos(req):
         msg="gtp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))
         otv=send(msg)
         if(otv=="gtp"):
-            if(read("dbg")==dpkg_msgs[2]):
+            if(read("dbg")==dbg_msgs[2]):
                 status=True
             else:
                 status=False
