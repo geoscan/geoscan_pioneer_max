@@ -225,8 +225,8 @@ function callback(event)
         --     write_msg("dbg-lowvolt2")
         -- elseif(event == Ev.SHOCK)then
         --     write_msg("dbg-shock")
-        elseif(event == Ev.CONTROL_FAIL)then
-            write_msg("dbg-cfail")
+        -- elseif(event == Ev.CONTROL_FAIL)then
+        --     write_msg("dbg-cfail")
         -- elseif(event == Ev.ENGINE_FAIL)then
         --     write_msg("dbg-efail")
         end
