@@ -214,27 +214,21 @@ end
 function callback(event)
     if(event_debug)then
         if(event == Ev.ENGINES_STARTED)then
-            write_event("dbg-engst")
+            write_msg("dbg-engst")
         elseif(event == Ev.COPTER_LANDED)then
-            write_event("dbg-cprlnd")
+            write_msg("dbg-cprlnd")
         elseif(event == Ev.TAKEOFF_COMPLETE)then
-            write_event("dbg-tkfcmplt")
+            write_msg("dbg-tkfcmplt")
         elseif(event == Ev.POINT_REACHED)then
-            write_event("dbg-pntrchd")
-        elseif(event == Ev.POINT_DECELERATION)then
-            write_event("dbg-pntdclrn")
-        elseif(event == Ev.LOW_VOLTAGE1)then
-            write_event("dbg-lowvolt1")
-        elseif(event == Ev.LOW_VOLTAGE2)then
-            write_event("dbg-lowvolt2")
-        elseif(event == Ev.SYNC_START)then
-            write_event("dbg-syncst")
-        elseif(event == Ev.SHOCK)then
-            write_event("dbg-shock")
+            write_msg("dbg-pntrchd")
+        -- elseif(event == Ev.LOW_VOLTAGE2)then
+        --     write_msg("dbg-lowvolt2")
+        -- elseif(event == Ev.SHOCK)then
+        --     write_msg("dbg-shock")
         elseif(event == Ev.CONTROL_FAIL)then
-            write_event("dbg-cfail")
-        elseif(event == Ev.ENGINE_FAIL)then
-            write_event("dbg-efail")
+            write_msg("dbg-cfail")
+        -- elseif(event == Ev.ENGINE_FAIL)then
+        --     write_msg("dbg-efail")
         end
     end
 end
