@@ -4,7 +4,10 @@
 В данном пакете находятся необходимые основные ноды для корректной работы Geoscan Pioneer Max
 
 ## Состав пакета:
+1. Ноды:
 * ros_serial_node
+2. Файлы запуска:
+* pioneer.launch - запуск системы
 
 ## Описание нод:
 ### 1. ros_serial_node
@@ -34,9 +37,6 @@
 * geoscan/sensors/orientation_service (gs_service/Ort) - возвращает данные положения
 * geoscan/sensors/range_service (gs_service/Range) - возвращает данные c датчиков расстояния
 * geoscan/sensors/altitude_service (gs_service/Alt) - возвращает данные высоты по барометр
-
-#### Топики:
-* geoscan/log_topic (std_msgs/String) - возвращает последние сообщение в логе
 
 ## Необходимые пакеты:
 1. Python:
