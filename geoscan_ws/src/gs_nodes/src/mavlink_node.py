@@ -1,4 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+#!-*- coding: utf-8 -*-
+
 from time import sleep,time
 from pymavlink import mavutil
 from pymavlink.dialects.v10 import ardupilotmega
@@ -10,13 +12,11 @@ from gs_module import *
 from gs_sensors import *
 from gs_logger import *
 import math
-
 TARGET_SYSTEM=None
 MISSIN_COUNT=None
 TARGET_COMP=1
 MISSION_LIST=[]
 CUSTOM_MODE=0
-
 def start_mission(mission_list):
     global flight
     global MODE
