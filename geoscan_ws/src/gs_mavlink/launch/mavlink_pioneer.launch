@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="gs_nodes" type="ros_serial_node.py" name="ros_serial_node">
+        <param name="port" value="/dev/ttyS0"/>
+    </node>
+    <node pkg="gs_mavlink" type="mavlink_node.py" name="mavlink_node"/>
+</launch>
