@@ -1,6 +1,8 @@
-apt-get: ros-melodic-desktop, ros-melodic-camera-info-manager, ros-melodic-cv-bridge, ros-melodic-web-video-server, python3-apriltag, libzbar0, python3-opencv, python3-tornado, isc-dhcp-server, hostapd, python3-lxml, net-tools, python3-rpi.gpio, python3-psutil
+apt-get: python3-apriltag, libzbar0, python3-opencv, python3-tornado, isc-dhcp-server, hostapd, python3-lxml, net-tools, python3-rpi.gpio, python3-psutil
 
-python: pymavlink, pyzbar
+ROS: base, cv-camera, cv-bridge, 
+
+python: pymavlink, pyzbar, picamera
 
 github: butterfly, code-server
 
