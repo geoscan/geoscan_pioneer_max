@@ -83,7 +83,7 @@ for _ in range(0,25):
 
 alive=Service("geoscan/alive",Live,handle_live)
 logger=Service("geoscan/log_service",Log,handle_log)
-logger_pub=Publisher("/geoscan/log_topic",String,queue_size=10)
+logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
 rospy.loginfo("wait connection ...")
 tmp=""
 while (tmp!="ok"):
