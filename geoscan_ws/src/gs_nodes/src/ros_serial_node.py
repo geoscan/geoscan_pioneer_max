@@ -30,7 +30,10 @@ def read(msg,logging=True):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
     if(logging):
-        log_msg="["+str(time())+"] request: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
+        if(msg=="dbg"):
+            log_msg="["+str(time())+"] debug-info: "+out_msg
+        else:
+            log_msg="["+str(time())+"] request: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
         log.append(log_msg)
         logger_pub.publish(log_msg)
     isWrite=False
@@ -65,6 +68,7 @@ def handle_log(req):
     return s
 
 ev_msgs=("pre","tkff","land","darm")
+dbg_msgs=("dbg-engst","dbg-pntrchd","dbg-cprlnd",None)
 sost_ev=-1
 sost_yw=0
 sost_pos=[0.,0.,0.,0.]
@@ -101,7 +105,12 @@ def handle_event(req):
         if (otv=="event_err"):
             status=-1
         elif(otv==ev_msgs[req.event]):
-            status=1
+            if(dbg_msgs[req.event]!=None):
+                ev=read("dbg")
+                if(ev==dbg_msgs[req.event]):
+                    status=1
+            else:
+                status=1
         else:
             status=-2
         sost_ev=req.event
@@ -128,7 +137,10 @@ def handle_local_pos(req):
         msg="gtlp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))+"-"+str(round(n_s[3],2))
         otv=send(msg)
         if(otv=="gtlp"):
-            status=True
+            if(read("dbg")==dbg_msgs[1]):
+                status=True
+            else:
+                status=False
         else:
             status=False
         sost_pos=n_s
@@ -142,7 +154,10 @@ def handle_gps_pos(req):
         msg="gtp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))
         otv=send(msg)
         if(otv=="gtp"):
-            status=True
+            if(read("dbg")==dbg_msgs[1]):
+                status=True
+            else:
+                status=False
         else:
             status=False
         sost_gps_pos=n_s
