@@ -30,7 +30,7 @@ def read(msg,logging=True):
             out_msg+=str(s,encoding='utf-8')
             s=ser.read()
     if(logging):
-        if(msg="dbg"):
+        if(msg=="dbg"):
             log_msg="["+str(time())+"] debug-info: "+out_msg
         else:
             log_msg="["+str(time())+"] request: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
