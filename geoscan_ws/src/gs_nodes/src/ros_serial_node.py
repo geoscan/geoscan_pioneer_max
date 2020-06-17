@@ -67,8 +67,8 @@ def handle_log(req):
     s=LogResponse(log)
     return s
 
-ev_msgs=("pre","tkff","land","darm")
-dbg_msgs=("dbg-engst","dbg-pntrchd","dbg-cprlnd",None)
+ev_msgs=("pre","tkff","land")
+dbg_msgs=("dbg-engst","dbg-pntrchd","dbg-cprlnd")
 sost_ev=-1
 sost_yw=0
 sost_pos=[0.,0.,0.,0.]

@@ -96,16 +96,3 @@ class FlightController():
                     break
         else:
             rospy.loginfo("Wait, connecting to flight controller")
-    
-    def engines_disarm(self):
-        if(self.__alive().status):
-            status=0
-            while True:
-                status=self.__ev_service(3).status
-                if(status==1):
-                    break
-                elif(status==-1):
-                    rospy.loginfo("Somethigs wrong")
-                    break
-        else:
-            rospy.loginfo("Wait, connecting to flight controller")
