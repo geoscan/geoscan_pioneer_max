@@ -2,7 +2,7 @@ apt-get: python3-apriltag, libzbar0, python3-opencv, python3-tornado, isc-dhcp-s
 
 ROS: base, cv-camera, cv-bridge, 
 
-python: pymavlink, pyzbar, picamera
+python: pymavlink, pyzbar
 
 github: butterfly, code-server
 
