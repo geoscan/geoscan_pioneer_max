@@ -1,5 +1,5 @@
 [Unit]
-Description=Geoscan Web-Menu
+Description=Pioneer Web-Menu
 
 [Service]
 ExecStart=/home/ubuntu/web-menu/start-eth.sh
