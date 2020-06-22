@@ -117,9 +117,6 @@ local function logic(data)
             elseif(evente == "2")then
                 ap.push(Ev.MCE_LANDING)
                 write_msg("land")
-            elseif(evente == "3")then
-                ap.push(Ev.ENGINES_DISARM)
-                write_msg("darm")
             else
                 write_msg("event_err")
             end
