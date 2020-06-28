@@ -104,6 +104,6 @@ def get_topic():
 try:
     sleep(10)
     hostname=os.popen('ip addr show eth0').read().split("inet ")[1].split("/")[0]
-    app.run(host=hostname,port=9091)
+    app.run(host=hostname,port=9090)
 except:
     pass

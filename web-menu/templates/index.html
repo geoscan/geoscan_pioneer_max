@@ -278,9 +278,9 @@
             $(".myform").remove();
             function onSuccess(data){
               if(data.status==1){
-                body=body+`<button class="btn btn-outline-danger" style="margin-left: 10%; position: sticky;" onclick="com(0)">Отключить ядро ROS</button>`;
+                body=body+`<button class="btn btn-outline-danger" style="margin-left: 10%; position: sticky; margin-right: 10%;" onclick="com(0)">Отключить ядро ROS</button>`;
               }else{
-                body=body+`<button class="btn btn-outline-success" style="margin-left: 10%; position: sticky;" onclick="com(1)">Включить ядро ROS</button>`;
+                body=body+`<button class="btn btn-outline-success" style="margin-left: 10%; position: sticky; margin-right: 10%;" onclick="com(1)">Включить ядро ROS</button>`;
               }
               $.get(
                 "/launch_status",
@@ -291,14 +291,14 @@
 
               function onSuccess2(data){
                 if(data.status==1){
-                  body=body+`<button class="btn btn-outline-danger" style="margin-left: 10%; position: sticky;" onclick="launch(0)">Отключить ROS систему</button>`;
+                  body=body+`<button class="btn btn-outline-danger" style="margin-left: 10%; position: sticky; margin-right: 10%" onclick="launch(0)">Отключить ROS систему</button>`;
                 }else{
-                  body=body+`<button class="btn btn-outline-success" style="margin-left: 10%; position: sticky;" onclick="launch(1)">Включить ROS систему</button>`;
+                  body=body+`<button class="btn btn-outline-success" style="margin-left: 10%; position: sticky; margin-right: 10%" onclick="launch(1)">Включить ROS систему</button>`;
                 };
                 var s=`
                 <div class="myform">
                   <br>
-                  <form>
+                  <form style="display: grid;">
                     <h1 style="text-align: center;">Управление ROS</h1>
                     ${body}
                   </form>
