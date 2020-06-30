@@ -26,3 +26,19 @@ sudo systemctl restart hostapd
 ```
 sudo reboot
 ```
+
+Одной из причин по которой точка может не работать является работающий NetworkManager
+
+Проверьте активен ли он 
+```
+sudo systemctl status NetworkManager
+```
+Если он активен выключите его
+```
+sudo systemctl stop NetworkManager
+sudo systemctl disable NetworkManager
+```
+Далее перезагрузите RPi
+```
+sudo reboot
+```
