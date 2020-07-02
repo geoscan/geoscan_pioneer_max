@@ -50,6 +50,8 @@ roslaunch ... --screen
 
 Утилита roslaunch запускает не только сценарий, но и ядро ROS, если оно не запущено
 
+[Подробнее о launch файлах](http://wiki.ros.org/roslaunch/XML)
+
 #### 4. Работа с топиками из консоли
 
 Самые полезные:
@@ -57,7 +59,7 @@ roslaunch ... --screen
 * rostopic echo имя_топика - выводит содержимое топика
 * rostopic pub имя_топика пакет_сообщения/тип_сообщения значение - публикует значение в топик из консоли
 
-Подробнее о всех командах утилиты rostopic: http://wiki.ros.org/rostopic
+[Подробнее о всех командах утилиты rostopic](http://wiki.ros.org/rostopic)
 
 #### 5. Работа с сообщениями из консоли
 Самые полезные:
@@ -67,7 +69,7 @@ roslaunch ... --screen
 * rossrv list - выводит все возможные типы сообщений сервисов
 * rossrv show пакет_сервиса/имя_типа_сервиса - показывает содержимое сообщения сервиса 
 
-Подробнее о всех командах утилиты rosmsg и rossrv: http://wiki.ros.org/rosmsg
+[Подробнее о всех командах утилиты rosmsg и rossrv](http://wiki.ros.org/rosmsg)
 
 #### 6. Работа с сервисами из консоли
 
@@ -76,5 +78,5 @@ roslaunch ... --screen
 * rosservice call имя_сервиса значение - делает запрос к сервису
 * rosservice type имя_сервиса - выдает тип сообщения сервиса
 
-Подробнее о всех командах утилиты rosservice: http://wiki.ros.org/rosservice
+[Подробнее о всех командах утилиты rosservice](http://wiki.ros.org/rosservice)
 
