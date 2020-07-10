@@ -1,6 +1,6 @@
 # Образы
 Действующие:
-* [Raspberry Pi (ubuntu-20.04, arm64, noetic-bare-bones)](https://drive.google.com/file/d/1Zm-Nhi6e7-190WppL6FA843wdkEJ0xqi/view?usp=sharing)
+* [Raspberry Pi (ubuntu-20.04, arm64, noetic-bare-bones)](https://drive.google.com/file/d/1Zm-Nhi6e7-190WppL6FA843wdkEJ0xqi/view?usp=drivesdk)
 
 
 Устаревшие:
