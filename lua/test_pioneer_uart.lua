@@ -1,4 +1,4 @@
-  local boardNumber = "1"
+local boardNumber = "1"
 local firmwareVersion = "2.0/cfg"
 
 local uartNum = 1
