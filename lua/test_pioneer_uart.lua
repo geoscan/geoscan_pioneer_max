@@ -1,5 +1,5 @@
 local boardNumber = "1"
-local firmwareVersion = "2.0/cfg"
+local firmwareVersion = "3.0/cfg"
 
 local uartNum = 1
 local baudRate = 9600 
