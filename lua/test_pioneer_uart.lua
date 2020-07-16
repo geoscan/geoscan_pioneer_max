@@ -52,15 +52,15 @@ end
 local events={
     ["0"]=function()
         ap.push(Ev.MCE_PREFLIGHT)
-        write_msg("prfl")
+        write_msg(string.pack("> c4","prfl"))
     end,
     ["1"]=function()
         ap.push(Ev.MCE_TAKEOFF)
-        write_msg("tkff")
+        write_msg(string.pack("> c4","tkff"))
     end,
     ["2"]=function()
         ap.push(Ev.MCE_LANDING)
-        write_msg("land")
+        write_msg(string.pack("> c4","land"))
     end
 }
 
@@ -76,7 +76,7 @@ local command={
         local t=0.0
         x,y,z,t=string.unpack("> f f f f",data)
         ap.goToLocalPoint(x,y,z,t)
-        write_msg("gtlp")
+        write_msg(string.pack("> c4","gtlp"))
     end,
     ["gtpg"]= function(data)
         local latitude= 0.0
@@ -84,13 +84,13 @@ local command={
         local altitude = 0.0
         latitude,longitude,altitude=string.unpack("> f f f",data)
         ap.goToPoint(latitude,longitude.altitude)
-        write_msg("gtpg")
+        write_msg(string.pack("> c4","gtpg"))
     end,
     ["updy"]= function(data)
         local yaw=0.0
         yaw=string.unpack("> f",data)
         ap.updateYaw(yaw)
-        write_msg("updy")
+        write_msg(string.pack("> ñ4","updy"))
     end,
     ["bled"]=function(data)
         local n=0
@@ -99,31 +99,32 @@ local command={
         local b=0.0
         n,r,g,b=string.unpack("> I1 f f f",data)
         leds:set(n,r,g,b)
-        write_msg("bled")
+        write_msg(string.pack("> c4","bled"))
     end,
     ["aled"]=function(data)
         local r=0.0
         local g=0.0
         local b=0.0
-        r,g,b=string.unpack("> f f f",data)
+        r,g,b=string.unpack("> f f f", data)
         color(r,g,b)
-        write_msg("aled")
+        write_msg(string.pack("> c4","aled"))
     end,
     ["mled"]=function(data)
         local n=0
         local r=0.0
         local g=0.0
         local b=0.0
-        n,r,g,b=string.unpack("> I1 f f f")
+        n,r,g,b=string.unpack("> I1 f f f",data)
         leds:set(n,r,g,b)
-        write_msg("mled")
+        write_msg(string.pack("> c4","mled"))
     end,
     ["lled"]=function(data)
         local r=0.0
         local g=0.0
         local b=0.0
+        r,g,b=string.unpack("> f f f", data)
         lcolor(r,g,b)
-        write_msg("lled")
+        write_msg(string.pack("> c4","lled"))
     end,
     ["time"]=function(data)
         write_msg(string.pack("> c4 f","time",time()))
@@ -175,7 +176,7 @@ local command={
         local gy=0.0
         local gz=0.0
         gx, gy, gz = gyro()
-        write_msg(string.pack("> c4 f f f",,gx,gy,gz))
+        write_msg(string.pack("> c4 f f f","gyro",gx,gy,gz))
     end,
     ["rnge"]=function(data)
         local r1=0.0
@@ -192,7 +193,7 @@ local command={
         write_msg(string.pack("> c4 f","altd",h))
     end,
     ["strt"]=function(data)
-        write_msg("ok")
+        write_msg(string.pack("> c2","ok"))
         color(0,0,0)
         lcolor(0,0,0)
     end
@@ -213,21 +214,20 @@ local function takeFunc()
     end
 end
 
-
 function callback(event)
     if(event == Ev.ENGINES_STARTED)then
-        write_msg("egst")
+        write_msg(string.pack("> c4","egst"))
     elseif(event == Ev.COPTER_LANDED)then
-        write_msg("crld")
+        write_msg(string.pack("> c4","crld"))
     elseif(event == Ev.TAKEOFF_COMPLETE)then
-        write_msg("ptrd")
+        write_msg(string.pack("> c4","ptrd"))
     elseif(event == Ev.POINT_REACHED)then
-        write_msg("ptrd")
+        write_msg(string.pack("> c4","ptrd"))
     end
 end
 
 t = Timer.new(sync, takeFunc)
-write_msg("okp")
+write_msg(string.pack("> c3","okp"))
 color(0,0,0)
 lcolor(0,0,0)
 t:start()
