@@ -94,7 +94,7 @@ local command={
         local yaw=0.0
         yaw=string.unpack("> f",data)
         ap.updateYaw(yaw)
-        write_msg(string.pack("> ñ4","updy"))
+        write_msg(string.pack("> c4","updy"))
     end,
     ["bled"]=function(data)
         local n=0
