@@ -61,8 +61,7 @@ local events={
     ["2"]=function()
         ap.push(Ev.MCE_LANDING)
         write_msg(string.pack("> c4","land"))
-    end,
-    else = function()
+    end
 }
 
 local command={
