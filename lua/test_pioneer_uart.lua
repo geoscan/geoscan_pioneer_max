@@ -12,9 +12,7 @@ local leds=Ledbar.new(29)
 local sync = 0.001
 local is_taking = false
 local inp = ''
-local j = 0
 local toWrite = ""
-local packet = {}
 
 local lpsPosition = Sensors.lpsPosition
 local lpsVelocity = Sensors.lpsVelocity
@@ -210,18 +208,11 @@ local function takeFunc()
     inp = uart:read(1)
     if is_taking then 
         if inp == "&" then
-            for n = 0, #packet, 1 do 
-                toWrite = toWrite .. packet[n]
-            end
             is_taking = false
             logic(toWrite)
             toWrite = ""
-            packet={}
-            j = 0
-            
         else
-            packet[j] = inp 
-            j=j+1
+            toWrite = toWrite .. inp
         end
     elseif(inp == "#")then
         is_taking = true
