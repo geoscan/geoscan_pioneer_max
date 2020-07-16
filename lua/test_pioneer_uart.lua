@@ -1,4 +1,4 @@
-local boardNumber = "1"
+local boardNumber = 1
 local firmwareVersion = "3.0/cfg"
 
 local uartNum = 1
@@ -54,15 +54,15 @@ end
 local events={
     ["0"]=function()
         ap.push(Ev.MCE_PREFLIGHT)
-        write_msg("prfl")
+        write_msg(string.pack("> 4s","prfl"))
     end,
     ["1"]=function()
         ap.push(Ev.MCE_TAKEOFF)
-        write_msg("tkff")
+        write_msg(string.pack("> 4s","tkff"))
     end,
     ["2"]=function()
         ap.push(Ev.MCE_LANDING)
-        write_msg("land")
+        write_msg(string.pack("> 4s","land"))
     end
 }
 
@@ -107,6 +107,7 @@ local command={
         local r=0.0
         local g=0.0
         local b=0.0
+        r,g,b=string.unpack("> f f f", data)
         color(r,g,b)
         write_msg("aled")
     end,
@@ -123,6 +124,7 @@ local command={
         local r=0.0
         local g=0.0
         local b=0.0
+        r,g,b=string.unpack("> f f f", data)
         lcolor(r,g,b)
         write_msg("lled")
     end,
@@ -136,7 +138,7 @@ local command={
         write_msg(string.pack("> s4 f","lntm",launchTime()))
     end,
     ["bnum"]=function(data)
-        write_msg(string.pack("> s4 s","bnum",boardNumber))
+        write_msg(string.pack("> s4 I1","bnum",boardNumber))
     end,
     ["lpsp"]=function(data)
         local lpsX=0.0
@@ -193,7 +195,7 @@ local command={
         write_msg(string.pack("> s4 f","altd",h))
     end,
     ["strt"]=function(data)
-        write_msg("ok")
+        write_msg(string.pack("> s2","ok"))
         color(0,0,0)
         lcolor(0,0,0)
     end
@@ -240,7 +242,7 @@ function callback(event)
 end
 
 t = Timer.new(sync, takeFunc)
-write_msg("okp")
+write_msg(string.pack("> s3","okp"))
 color(0,0,0)
 lcolor(0,0,0)
 t:start()
