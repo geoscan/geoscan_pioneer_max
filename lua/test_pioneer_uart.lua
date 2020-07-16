@@ -67,7 +67,7 @@ local events={
 local command={
     ["evnt"]=function(data)
        local x=data:sub(1,1)
-       if ((x=="1") or (x=="2") or (x=="3")) then
+       if ((x=="1") or (x=="2") or (x=="0")) then
            events[x]()
        else
            write_msg(string.pack("> c4","ever"))
