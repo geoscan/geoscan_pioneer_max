@@ -61,13 +61,18 @@ local events={
     ["2"]=function()
         ap.push(Ev.MCE_LANDING)
         write_msg(string.pack("> c4","land"))
-    end
+    end,
+    else = function()
 }
 
 local command={
     ["evnt"]=function(data)
        local x=data:sub(1,1)
-       events[x]()
+       if ((x=="1") or (x=="2") or (x=="3")) then
+           events[x]()
+       else
+           write_msg(string.pack("> c4","ever"))
+       end
     end,
     ["gtlp"]=function(data)
         local x=0.0
