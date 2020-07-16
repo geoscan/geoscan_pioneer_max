@@ -197,7 +197,7 @@ local command={
         write_msg(string.pack("> c4 f","altd",h))
     end,
     ["strt"]=function(data)
-        write_msg(string.pack("> c2","ok"))
+        write_msg(string.pack("> c2","oks"))
         color(0,0,0)
         lcolor(0,0,0)
     end
