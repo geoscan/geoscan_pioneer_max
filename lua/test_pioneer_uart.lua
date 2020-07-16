@@ -12,7 +12,7 @@ local leds=Ledbar.new(29)
 local sync = 0.001
 local is_taking = false
 local inp = ''
-local toWrite = ""
+local data = ""
 
 local lpsPosition = Sensors.lpsPosition
 local lpsVelocity = Sensors.lpsVelocity
@@ -52,15 +52,15 @@ end
 local events={
     ["0"]=function()
         ap.push(Ev.MCE_PREFLIGHT)
-        write_msg(string.pack("> 4s","prfl"))
+        write_msg("prfl")
     end,
     ["1"]=function()
         ap.push(Ev.MCE_TAKEOFF)
-        write_msg(string.pack("> 4s","tkff"))
+        write_msg("tkff")
     end,
     ["2"]=function()
         ap.push(Ev.MCE_LANDING)
-        write_msg(string.pack("> 4s","land"))
+        write_msg("land")
     end
 }
 
@@ -105,7 +105,7 @@ local command={
         local r=0.0
         local g=0.0
         local b=0.0
-        r,g,b=string.unpack("> f f f", data)
+        r,g,b=string.unpack("> f f f",data)
         color(r,g,b)
         write_msg("aled")
     end,
@@ -122,61 +122,60 @@ local command={
         local r=0.0
         local g=0.0
         local b=0.0
-        r,g,b=string.unpack("> f f f", data)
         lcolor(r,g,b)
         write_msg("lled")
     end,
     ["time"]=function(data)
-        write_msg(string.pack("> s4 f","time",time()))
+        write_msg(string.pack("> c4 f","time",time()))
     end,
     ['dltm']=function(data)
-        write_msg(string.pack("> s4 f","dltm",deltaTime()))
+        write_msg(string.pack("> c4 f","dltm",deltaTime()))
     end,
     ["lntm"]=function(data)
-        write_msg(string.pack("> s4 f","lntm",launchTime()))
+        write_msg(string.pack("> c4 f","lntm",launchTime()))
     end,
     ["bnum"]=function(data)
-        write_msg(string.pack("> s4 I1","bnum",boardNumber))
+        write_msg(string.pack("> c4 I1","bnum",boardNumber))
     end,
     ["lpsp"]=function(data)
         local lpsX=0.0
         local lpsY=0.0
         local lpsZ=0.0
         lpsX, lpsY, lpsZ = lpsPosition()
-        write_msg(string.pack("> s4 f f f","lpsp",convert(lpsX),convert(lpsY),convert(lpsZ)))
+        write_msg(string.pack("> c4 f f f","lpsp",convert(lpsX),convert(lpsY),convert(lpsZ)))
     end,
     ["lpsv"]=function(data)
         local lpsVelX=0.0
         local lpsVelY=0.0
         local lpsVelZ=0.0
         lpsVelX, lpsVelY, lpsVelZ = lpsVelocity()
-        write_msg(string.pack("> s4 f f f","lpsv",convert(lpsVelX),convert(lpsVelY),convert(lpsVelZ)))
+        write_msg(string.pack("> c4 f f f","lpsv",convert(lpsVelX),convert(lpsVelY),convert(lpsVelZ)))
     end,
     ["lpsy"]=function(data)
         local lpsYaw=0.0
         lpsYaw=lpsYaw()
-        write_msg(string.pack("> s4 f","lpsy",convert(lpsYaw)))
+        write_msg(string.pack("> c4 f","lpsy",convert(lpsYaw)))
     end,
     ["ornt"]=function(data)
         local roll=0.0
         local pitch=0.0
         local azimuth =0.0
         roll, pitch, azimuth = orientation()
-        write_msg(string.pack("> s4 f f f","ornt",roll,pitch,azimuth))
+        write_msg(string.pack("> c4 f f f","ornt",roll,pitch,azimuth))
     end,
     ["accl"]=function(data)
         local ax=0.0
         local ay=0.0
         local az=0.0
         ax, ay, az = accel()
-        write_msg(string.pack("> s4 f f f","accl",ax,ay,az))
+        write_msg(string.pack("> c4 f f f","accl",ax,ay,az))
     end,
     ["gyro"]=function(data)
         local gx=0.0
         local gy=0.0
         local gz=0.0
         gx, gy, gz = gyro()
-        write_msg(string.pack("> s4 f f f","gyro",gx,gy,gz))
+        write_msg(string.pack("> c4 f f f",,gx,gy,gz))
     end,
     ["rnge"]=function(data)
         local r1=0.0
@@ -185,34 +184,29 @@ local command={
         local r4=0.0
         local r5=0.0
         d1,d2,d3,d4,d5=range()
-        write_msg(string.pack("> s4 f f f f f","rnge",convert(r1),convert(r2),convert(r3),convert(r4),convert(r5)))
+        write_msg(string.pack("> c4 f f f f f","rnge",convert(r1),convert(r2),convert(r3),convert(r4),convert(r5)))
     end,
     ["altd"]=function(data)
         local h=0.0
         h=altitude()
-        write_msg(string.pack("> s4 f","altd",h))
+        write_msg(string.pack("> c4 f","altd",h))
     end,
     ["strt"]=function(data)
-        write_msg(string.pack("> s2","ok"))
+        write_msg("ok")
         color(0,0,0)
         lcolor(0,0,0)
     end
 }
-
-local function logic(data)
-    code=data:sub(1,4)
-    command[code](data:sub(5,#data))
-end
 
 local function takeFunc()
     inp = uart:read(1)
     if is_taking then 
         if inp == "&" then
             is_taking = false
-            logic(toWrite)
-            toWrite = ""
+            command[data:sub(1,4)](data:sub(5,#data))
+            data = ""
         else
-            toWrite = toWrite .. inp
+            data = data .. inp
         end
     elseif(inp == "#")then
         is_taking = true
@@ -233,7 +227,7 @@ function callback(event)
 end
 
 t = Timer.new(sync, takeFunc)
-write_msg(string.pack("> s3","okp"))
+write_msg("okp")
 color(0,0,0)
 lcolor(0,0,0)
 t:start()
