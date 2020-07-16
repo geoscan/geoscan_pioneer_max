@@ -201,7 +201,7 @@ local command={
 
 local function logic(data)
     code=data:sub(1,4)
-    command[code](data:sub(4,#data))
+    command[code](data:sub(5,#data))
 end
 
 local function takeFunc()
