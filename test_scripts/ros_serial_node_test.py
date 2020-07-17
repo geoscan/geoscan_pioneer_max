@@ -109,7 +109,7 @@ def handle_event(req):
     global sost_ev
     global ev_msgs
     if (req.event!=sost_ev):
-        msg=struct.pack(">5s1s1s",b"#evnt",b"1",b"&")
+        msg=struct.pack(">5s4s1s",b"#evnt",ev_msg[req.event],b"&")
         send(msg)
         otv=struct.unpack(">4s",read())[0]
         print(otv)
