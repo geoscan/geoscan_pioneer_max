@@ -2,9 +2,26 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from rospy import Service,Publisher
-from gs_service.srv import Event,EventResponse,Yaw,YawResponse,Position,PositionResponse,PositionGPS,PositionGPSResponse,Led,LedResponse,Info,InfoResponse,Time,TimeResponse,LpsPos,LpsPosResponse,LpsVel,LpsVelResponse,LpsYaw,LpsYawResponse,Range,RangeResponse,Gyro,GyroResponse,Accel,AccelResponse,Orientation,OrientationResponse,Live,Log,LogResponse,Altitude,AltitudeResponse
+import struct
 import serial
+from rospy import Service,Publisher
+from gs_service.srv import Event,EventResponse
+from gs_service.srv import Yaw,YawResponse
+from gs_service.srv import Position,PositionResponse
+from gs_service.srv import PositionGPS,PositionGPSResponse
+from gs_service.srv import Led,LedResponse
+from gs_service.srv import Info,InfoResponse
+from gs_service.srv import Time,TimeResponse
+from gs_service.srv import LpsPos,LpsPosResponse
+from gs_service.srv import LpsVel,LpsVelResponse
+from gs_service.srv import LpsYaw,LpsYawResponse
+from gs_service.srv import Range,RangeResponse
+from gs_service.srv import Gyro,GyroResponse
+from gs_service.srv import Accel,AccelResponse
+from gs_service.srv import Orientation,OrientationResponse
+from gs_service.srv import Live
+from gs_service.srv import Log,LogResponse
+from gs_service.srv import Altitude,AltitudeResponse
 from std_msgs.msg import Bool,String,ColorRGBA
 from geometry_msgs.msg import Point
 from time import sleep,time
@@ -13,47 +30,68 @@ rospy.init_node("ros_serial_node")
 
 p_name=rospy.search_param("port")
 port=rospy.get_param(p_name)
-ser=serial.Serial(port,9600)
+ser=serial.Serial(port,9600,timeout=10)
 isWrite=False
 live=False
 log=[]
+ev_msgs=(b"prfl",b"tkff",b"land")
+dbg_msgs=(b"egst",b"ptrd",b"crld")
+sost_ev=-1
+sost_yw=0
+sost_pos=[0.,0.,0.,0.]
+sost_gps_pos=[0.,0.,0.]
+sost_board_led=[]
+sost_module_led=[]
+tmp=b""
 
-def read(msg,logging=True):
+def read():
     global ser
     global isWrite
+    global live
     global log
     global logger_pub
-    out_msg=""
-    if(ser.read()==b'&'):
+    out_msg=b''
+    once=False
+    is_taking=False
+    while True:
         s=ser.read()
-        while(s!=b'#'):
-            out_msg+=str(s,encoding='utf-8')
-            s=ser.read()
-    if(logging):
-        if(msg=="dbg"):
-            log_msg="["+str(time())+"] debug-info: "+out_msg
+        if(s==b''):
+            if(not once):
+                log_msg="["+str(time())+"] board-live: disconnect"
+                live=False
+                rospy.loginfo("Board disconnect")
+                rospy.loginfo("Try to reconnect with the board")
+                log.append(log_msg)
+                logger_pub.publish(log_msg)
+                once=True
+            else:
+                pass
         else:
-            log_msg="["+str(time())+"] request: "+msg+" -->"+"["+str(time())+ "] response: "+out_msg
-        log.append(log_msg)
-        logger_pub.publish(log_msg)
+            if(once):
+               log_msg="["+str(time())+"] board-live: connect"
+               live=True
+               rospy.loginfo("Board connect")
+               log.append(log_msg)
+               logger_pub.publish(log_msg)
+               once=False
+            if(is_taking):
+                if(s==b'#'):
+                    is_taking=False
+                    break
+                else:
+                    out_msg+=s
+            elif(s==b'&'):
+                is_taking=True
     isWrite=False
     return out_msg
 
-def send(l_msg):
+def send(msg):
     global ser
     global isWrite
-    global log
-    global logger_pub
-
     while (isWrite):
         pass
     isWrite=True
-    msg="#"+l_msg+"&"
-    ser.write(bytes(msg,'utf-8'))
-    log_msg="["+str(time())+"] send: "+l_msg
-    log.append(log_msg)
-    logger_pub.publish(log_msg)
-    return read(l_msg)
+    ser.write(msg)
 
 def handle_live(req):
     global live
@@ -67,46 +105,19 @@ def handle_log(req):
     s=LogResponse(log)
     return s
 
-ev_msgs=("pre","tkff","land")
-dbg_msgs=("dbg-engst","dbg-pntrchd","dbg-cprlnd")
-sost_ev=-1
-sost_yw=0
-sost_pos=[0.,0.,0.,0.]
-sost_gps_pos=[0.,0.,0.]
-sost_board_led=[]
-sost_module_led=[]
-for _ in range(0,4):
-    sost_board_led.append(ColorRGBA())
-
-for _ in range(0,25):
-    sost_module_led.append(ColorRGBA())
-
-alive=Service("geoscan/alive",Live,handle_live)
-logger=Service("geoscan/log_service",Log,handle_log)
-logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
-rospy.loginfo("wait connection ...")
-tmp=""
-while (tmp!="ok"):
-    tmp=send("start-")
-    if(tmp=="okp"):
-        read("start-",logging=False)
-        break
-sleep(1)
-num=send("bnum-")
-rospy.loginfo("board connect")
-live=True
-
 def handle_event(req):
     global sost_ev
     global ev_msgs
     if (req.event!=sost_ev):
-        msg="eve-"+str(req.event)
-        otv=send(msg)
-        if (otv=="event_err"):
+        msg=struct.pack(">5s4s1s",b"#evnt",ev_msg[req.event],b"&")
+        send(msg)
+        otv=struct.unpack(">4s",read())[0]
+        print(otv)
+        if (otv==b"ever"):
             status=-1
         elif(otv==ev_msgs[req.event]):
             if(dbg_msgs[req.event]!=None):
-                ev=read("dbg")
+                ev=struct.unpack(">4s",read())[0]
                 if(ev==dbg_msgs[req.event]):
                     status=1
             else:
@@ -120,9 +131,10 @@ def handle_event(req):
 def handle_yaw(req):
     global sost_yw
     if(req.angle!=sost_yw):
-        msg="updy-"+str(round(req.angle,2))
-        otv=send(msg)
-        if(otv=="updy"):
+        msg=struct.pack(">5sf1s",b"#updy",round(req.angle,2),b"&")
+        send(msg)
+        otv=struct.unpack(">4s")[0]
+        if(otv==b"updy"):
             status=True
         else:
             status=False
@@ -134,10 +146,12 @@ def handle_local_pos(req):
     global sost_pos
     n_s=[req.position.x,req.position.y,req.position.z,req.time]
     if(n_s!=sost_pos):
-        msg="gtlp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))+"-"+str(round(n_s[3],2))
-        otv=send(msg)
-        if(otv=="gtlp"):
-            if(read("dbg")==dbg_msgs[1]):
+        msg=struct.pack(">5sffff1s",b"#gtlp",round(n_s[0],2),round(n_s[1],2),round(n_s[2],2),round(n_s[3],2),b"&")
+        send(msg)
+        otv=struct.unpack(">4s",read())[0]
+        if(otv==b"gtlp"):
+            ev=struct.unpack(">4s",read())[0]
+            if(ev==dbg_msgs[1]):
                 status=True
             else:
                 status=False
@@ -151,10 +165,12 @@ def handle_gps_pos(req):
     global sost_gps_pos
     n_s=[req.latitude,req.longitude,req.altitude]
     if(n_s!=sost_gps_pos):
-        msg="gtp-"+str(round(n_s[0],2))+"-"+str(round(n_s[1],2))+"-"+str(round(n_s[2],2))
-        otv=send(msg)
-        if(otv=="gtp"):
-            if(read("dbg")==dbg_msgs[1]):
+        msg=struct.pack(">5sfff1s",b"#gtpg",round(n_s[0],2),round(n_s[1],2),round(n_s[2],2),b"&")
+        send(msg)
+        otv=struct.unpack(">4s",read())[0]
+        if(otv==b"gtpg"):
+            ev=struct.unpack(">4s",read())[0]
+            if(ev==dbg_msgs[1]):
                 status=True
             else:
                 status=False
@@ -173,23 +189,25 @@ def handle_board_led(req):
             if(leds[i]==leds[i+1]):
                 j+=1
         if(j==len(leds)):
-            msg="aled-"+str(int(leds[0].r))+"-"+str(int(leds[0].g))+"-"+str(int(leds[0].b))
-            otv=send(msg)
+            msg=struct.pack(">5sfff1s",b"#aled",int(leds[0].r),int(leds[0].g),int(leds[0].b),b"&")
+            send(msg)
+            otv=struct.unpack(">4s",read())[0]
             aled=True
         else:
             aled=False
             for i in range(0,len(leds)):
                 if (leds[i]!=sost_board_led[i]):
-                    msg="led-"+str(i)+"-"+str(int(leds[i].r))+"-"+str(int(leds[i].g))+"-"+str(int(leds[i].b))
-                    otv=send(msg)
+                    msg=struct.pack(">5sBfff1s",b"#bled",i,int(leds[i].r),int(leds[i].g),int(leds[i].b),b"&")
+                    send(msg)
+                    otv=struct.unpack(">4s",read())[0]
         if(aled):
-            if(otv=="aled"):
+            if(otv==b"aled"):
                 status=True
                 sost_board_led=leds
             else:
                 status=False
         else:
-            if(otv=="led"):
+            if(otv==b"bled"):
                 status=True
                 sost_board_led=leds
             else:
@@ -206,23 +224,25 @@ def handle_module_led(req):
             if(leds[i]==leds[i+1]):
                 j+=1
         if(j==len(leds)):
-            msg="laled-"+str(int(leds[0].r))+"-"+str(int(leds[0].g))+"-"+str(int(leds[0].b))
-            otv=send(msg)
+            msg=struct.pack(">5sfff1s",b"#lled",int(leds[0].r),int(leds[0].g),int(leds[0].b),b"&")
+            send(msg)
+            otv=struct.unpack(">4s",read())[0]
             aled=True
         else:
             aled=False
             for i in range(0,len(leds)):
                 if (leds[i]!=sost_module_led[i]):
-                    msg="lled-"+str(i)+"-"+str(int(leds[i].r))+"-"+str(int(leds[i].g))+"-"+str(int(leds[i].b))
-                    otv=send(msg)
+                    msg=struct.pack(">5sBfff1s",b"#mled",i,leds[i].r,leds[i].g,leds[i].b)
+                    send(msg)
+                    otv=struct.unpack(">4s",read())[0]
         if(aled):
-            if(otv=="laled"):
+            if(otv==b"lled"):
                 status=True
                 sost_module_led=leds
             else:
                 status=False
         else:
-            if(otv=="lled"):
+            if(otv==b"mled"):
                 status=True
                 sost_module_led=leds
             else:
@@ -235,96 +255,126 @@ def handle_info(req):
     return InfoResponse(num)
 
 def handle_time(req):
-    msg="time-"
-    return TimeResponse(float(send(msg)))
+    msg=struct.pack(">6s",b"#time&")
+    send(msg)
+    _,otv=struct.unpack(">4sf",read())
+    return TimeResponse(otv)
 
 def handle_dltm(req):
-    msg="dltm-"
-    return TimeResponse(float(send(msg)))
+    msg=struct.pack(">6s",b"#dltm&")
+    send(msg)
+    _,otv=struct.unpack(">4sf",read())
+    return TimeResponse(otv)
 
 def handle_lntm(req):
-    msg="lntm-"
-    return TimeResponse(float(send(msg)))
+    msg=struct.pack(">6s",b"#lntm&")
+    send(msg)
+    _,otv=struct.unpack(">4sf",read())
+    return TimeResponse(otv)
+
 
 def handle_lps_pos(req):
-    msg="lpspos-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="lpspos"):
+    msg=struct.pack(">6s",b"#lpsp&")
+    send(msg)
+    l,x,y,z=struct.unpack(">4sfff",read())
+    if(l==b"lpsp"):
         point=Point()
-        point.x=float(l[1])
-        point.y=float(l[2])
-        point.z=float(l[3])
+        point.x=x
+        point.y=y
+        point.z=z
         return LpsPosResponse(point)
     return LpsPosResponse(Point())
 
 def handle_lps_vel(req):
-    msg="lpsvel-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="lpsvel"):
+    msg=struct.pack(">6s",b"#lpsv&")
+    send(msg)
+    l,x,y,z=struct.unpack(">4sfff",read())
+    if(l==b"lpsv"):
         point=Point()
-        point.x=float(l[1])
-        point.y=float(l[2])
-        point.z=float(l[3])
+        point.x=x
+        point.y=y
+        point.z=z
         return LpsVelResponse(point)
     return LpsVelResponse(Point())
 
 def handle_lps_yaw(req):
-    msg="lpsyaw-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="lpsyaw"):
-        return LpsYawResponse(float(l[1]))
+    msg=struct.pack(">6s",b"#lpsy&")
+    send(msg)
+    l,yaw=struct.unpack(">4sf",read())
+    if(l==b"lpsy"):
+        return LpsYawResponse(yaw)
     return LpsYawResponse(0.)
 
 def handle_gyro(req):
-    msg="gyro-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="gyro"):
+    msg=struct.pack(">6s",b"#gyro&")
+    send(msg)
+    l,x,y,z=struct.unpack(">4sfff",read())
+    if(l==b"gyro"):
         point=Point()
-        point.x=float(l[1])
-        point.y=float(l[2])
-        point.z=float(l[3])
+        point.x=x
+        point.y=y
+        point.z=z
         return GyroResponse(point)
     return GyroResponse(Point())
 
 def handle_acl(req):
-    msg="acl-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="acl"):
+    msg=struct.pack(">6s",b"#accl&")
+    send(msg)
+    l,x,y,z=struct.unpack(">4sfff",read())
+    if(l==b"accl"):
         point=Point()
-        point.x=float(l[1])
-        point.y=float(l[2])
-        point.z=float(l[3])
+        point.x=x
+        point.y=y
+        point.z=z
         return AccelResponse(point)
     return AccelResponse(Point())
 
 def handle_ort(req):
-    msg="ort-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="ort"):
-        return OrientationResponse(float(l[1]),float(l[2]),float(l[3]))
+    msg=struct.pack(">6s",b"#ornt&")
+    send(msg)
+    l,roll,pitch,azimuth=struct.unpack(">4sfff",read())
+    if(l==b"ornt"):
+        return OrientationResponse(roll,pitch,azimuth)
     return OrientationResponse(0.,0.,0.)    
 
 def handle_range(req):
-    msg="range-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="range"):
-        return RangeResponse(float(l[1]),float(l[2]),float(l[3]),float(l[4]),float(l[5]))
+    msg=struct.pack(">6s",b"#rnge&")
+    send(msg)
+    l,r1,r2,r3,r4,r5=struct.unpack(">4sfffff",read())
+    if(l==b"rnge"):
+        return RangeResponse(r1,r2,r3,r4,r5)
     return RangeResponse(0.,0.,0.,0.,0.)
 
 def handle_alt(req):
-    msg="alt-"
-    otv=send(msg)
-    l=otv.split(":")
-    if(l[0]=="alt"):
-        return AltitudeResponse(float(l[1]))
+    msg=struct.pack(">6s",b"#altd&")
+    send(msg)
+    l,h=struct.unpack(">4sf",read())
+    if(l[0]==b"altd"):
+        return AltitudeResponse(h)
     return AltitudeResponse(0.)
+
+alive=Service("geoscan/alive",Live,handle_live)
+logger=Service("geoscan/log_service",Log,handle_log)
+logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
+
+for _ in range(0,4):
+    sost_board_led.append(ColorRGBA())
+
+for _ in range(0,25):
+    sost_module_led.append(ColorRGBA())
+
+rospy.loginfo("wait connection ...")
+while (tmp!=b"oks"):
+    send(struct.pack(">6s",b"#strt&"))
+    tmp=struct.unpack(">3s",read())[0]
+    if(tmp==b"okp"):
+        read()
+        break
+sleep(1)
+send(struct.pack(">6s",b"#bnum&"))
+_,num=struct.unpack(">4sB",read())
+rospy.loginfo("board connect")
+live=True
 
 s_ew=Service("geoscan/flight/event_service",Event,handle_event)
 s_yw=Service("geoscan/flight/yaw",Yaw,handle_yaw)
