@@ -50,15 +50,15 @@ local function convert(num)
 end
 
 local events={
-    ["0"]=function()
+    ["prfl"]=function()
         ap.push(Ev.MCE_PREFLIGHT)
         write_msg(string.pack("> c4","prfl"))
     end,
-    ["1"]=function()
+    ["tkff"]=function()
         ap.push(Ev.MCE_TAKEOFF)
         write_msg(string.pack("> c4","tkff"))
     end,
-    ["2"]=function()
+    ["land"]=function()
         ap.push(Ev.MCE_LANDING)
         write_msg(string.pack("> c4","land"))
     end
@@ -66,7 +66,7 @@ local events={
 
 local command={
     ["evnt"]=function(data)
-       local x=data:sub(1,1)
+       local x=data:sub(1,4)
        if ((x=="1") or (x=="2") or (x=="0")) then
            events[x]()
        else
