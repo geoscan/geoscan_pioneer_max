@@ -2,23 +2,50 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from rospy import Service,Publisher
-from gs_service.srv import Event,EventResponse,Yaw,YawResponse,Position,PositionResponse,PositionGPS,PositionGPSResponse,Led,LedResponse,Info,InfoResponse,Time,TimeResponse,LpsPos,LpsPosResponse,LpsVel,LpsVelResponse,LpsYaw,LpsYawResponse,Range,RangeResponse,Gyro,GyroResponse,Accel,AccelResponse,Orientation,OrientationResponse,Live,Log,LogResponse,Altitude,AltitudeResponse
+import struct
 import serial
+from rospy import Service,Publisher
+from gs_service.srv import Event,EventResponse
+from gs_service.srv import Yaw,YawResponse
+from gs_service.srv import Position,PositionResponse
+from gs_service.srv import PositionGPS,PositionGPSResponse
+from gs_service.srv import Led,LedResponse
+from gs_service.srv import Info,InfoResponse
+from gs_service.srv import Time,TimeResponse
+from gs_service.srv import LpsPos,LpsPosResponse
+from gs_service.srv import LpsVel,LpsVelResponse
+from gs_service.srv import LpsYaw,LpsYawResponse
+from gs_service.srv import Range,RangeResponse
+from gs_service.srv import Gyro,GyroResponse
+from gs_service.srv import Accel,AccelResponse
+from gs_service.srv import Orientation,OrientationResponse
+from gs_service.srv import Live
+from gs_service.srv import Log,LogResponse
+from gs_service.srv import Altitude,AltitudeResponse
 from std_msgs.msg import Bool,String,ColorRGBA
 from geometry_msgs.msg import Point
 from time import sleep,time
-import struct
 
 rospy.init_node("ros_serial_node")
 
-# p_name=rospy.search_param("port")
-# port=rospy.get_param(p_name)
-port="/dev/ttyS0"
+p_name=rospy.search_param("port")
+port=rospy.get_param(p_name)
 ser=serial.Serial(port,9600,timeout=10)
 isWrite=False
 live=False
 log=[]
+ev_msgs=(b"prfl",b"tkff",b"land")
+dbg_msgs=(b"egst",b"ptrd",b"crld")
+sost_ev=-1
+sost_yw=0
+sost_pos=[0.,0.,0.,0.]
+sost_gps_pos=[0.,0.,0.]
+sost_board_led=[]
+sost_module_led=[]
+alive=Service("geoscan/alive",Live,handle_live)
+logger=Service("geoscan/log_service",Log,handle_log)
+logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
+tmp=b""
 
 def read():
     global ser
@@ -80,37 +107,6 @@ def handle_log(req):
         pass
     s=LogResponse(log)
     return s
-
-ev_msgs=(b"prfl",b"tkff",b"land")
-dbg_msgs=(b"egst",b"ptrd",b"crld")
-sost_ev=-1
-sost_yw=0
-sost_pos=[0.,0.,0.,0.]
-sost_gps_pos=[0.,0.,0.]
-sost_board_led=[]
-sost_module_led=[]
-for _ in range(0,4):
-    sost_board_led.append(ColorRGBA())
-
-for _ in range(0,25):
-    sost_module_led.append(ColorRGBA())
-
-alive=Service("geoscan/alive",Live,handle_live)
-logger=Service("geoscan/log_service",Log,handle_log)
-logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
-rospy.loginfo("wait connection ...")
-tmp=b""
-while (tmp!=b"oks"):
-    send(struct.pack(">6s",b"#strt&"))
-    tmp=struct.unpack(">3s",read())[0]
-    if(tmp==b"okp"):
-        read()
-        break
-sleep(1)
-send(struct.pack(">6s",b"#bnum&"))
-_,num=struct.unpack(">4sB",read())
-rospy.loginfo("board connect")
-live=True
 
 def handle_event(req):
     global sost_ev
@@ -359,6 +355,27 @@ def handle_alt(req):
     if(l[0]==b"altd"):
         return AltitudeResponse(h)
     return AltitudeResponse(0.)
+
+
+
+for _ in range(0,4):
+    sost_board_led.append(ColorRGBA())
+
+for _ in range(0,25):
+    sost_module_led.append(ColorRGBA())
+
+rospy.loginfo("wait connection ...")
+while (tmp!=b"oks"):
+    send(struct.pack(">6s",b"#strt&"))
+    tmp=struct.unpack(">3s",read())[0]
+    if(tmp==b"okp"):
+        read()
+        break
+sleep(1)
+send(struct.pack(">6s",b"#bnum&"))
+_,num=struct.unpack(">4sB",read())
+rospy.loginfo("board connect")
+live=True
 
 s_ew=Service("geoscan/flight/event_service",Event,handle_event)
 s_yw=Service("geoscan/flight/yaw",Yaw,handle_yaw)
