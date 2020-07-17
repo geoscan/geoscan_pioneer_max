@@ -42,9 +42,6 @@ sost_pos=[0.,0.,0.,0.]
 sost_gps_pos=[0.,0.,0.]
 sost_board_led=[]
 sost_module_led=[]
-alive=Service("geoscan/alive",Live,handle_live)
-logger=Service("geoscan/log_service",Log,handle_log)
-logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
 tmp=b""
 
 def read():
@@ -356,7 +353,9 @@ def handle_alt(req):
         return AltitudeResponse(h)
     return AltitudeResponse(0.)
 
-
+alive=Service("geoscan/alive",Live,handle_live)
+logger=Service("geoscan/log_service",Log,handle_log)
+logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
 
 for _ in range(0,4):
     sost_board_led.append(ColorRGBA())
