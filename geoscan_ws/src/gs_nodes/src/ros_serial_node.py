@@ -410,9 +410,6 @@ send_log("wait start connect")
 while ((tmp!=b"oks") and (not rospy.is_shutdown())):
     send(struct.pack(">6s",b"#strt&"))
     tmp=struct.unpack(">3s",read(sync_first=True))[0]
-    if(tmp==b"okp"):
-        read()
-        break
 sleep(1)
 send(struct.pack(">6s",b"#bnum&"))
 _,num=struct.unpack(">4sB",read())
