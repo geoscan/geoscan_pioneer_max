@@ -200,6 +200,9 @@ local command={
         write_msg(string.pack("> c3","oks"))
         color(0,0,0)
         lcolor(0,0,0)
+    end,
+    ["stts"]=function(data)
+        write_msg(string.pack("> c3","oks"))
     end
 }
 
