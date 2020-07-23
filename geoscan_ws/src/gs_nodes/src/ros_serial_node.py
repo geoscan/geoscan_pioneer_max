@@ -112,7 +112,7 @@ def handle_event(req):
     global ev_msgs
     if (req.event!=sost_ev):
         msg=struct.pack(">5s4s1s",b"#evnt",ev_msg[req.event],b"&")
-        send_log("send: change event to "+ str(ev_msg[req.event],encoding='utf-8'))
+        send_log("send: change event to "+ str(ev_msgs[req.event],encoding='utf-8'))
         send(msg)
         otv=struct.unpack(">4s",read())[0]
         send_log("response: "+ str(otv, encoding='utf-8'))
