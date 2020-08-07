@@ -498,9 +498,13 @@ while not rospy.is_shutdown():
 
         rospy.loginfo("Wait start connection ...")
         send_log("wait start connect")
+        tmp=b''
         while (tmp!=b"oks"):
             msg=struct.pack(">6s",b"#strt&")
-            tmp=struct.unpack(">3s",msg_exchange(msg))[0]
+            try:
+                tmp=struct.unpack(">3s",msg_exchange(msg))[0]
+            except:
+                tmp=b''
         sleep(1.5)
         rospy.loginfo("Board start connect - done")
         send_log("start connect - done")
