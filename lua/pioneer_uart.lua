@@ -119,7 +119,7 @@ local command={
         local g=0.0
         local b=0.0
         n,r,g,b=string.unpack("> I1 f f f",data)
-        leds:set(n,r,g,b)
+        leds:set(n+4,r,g,b)
         write_msg(string.pack("> c4","mled"))
     end,
     ["lled"]=function(data)
