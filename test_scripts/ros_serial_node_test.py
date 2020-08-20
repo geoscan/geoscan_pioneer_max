@@ -286,7 +286,7 @@ def handle_module_led(req):
                 aled=False
                 for i in range(0,len(leds)):
                     if (leds[i]!=sost_module_led[i]):
-                        msg=struct.pack(">5sBfff1s",b"#mled",i,leds[i].r,leds[i].g,leds[i].b)
+                        msg=struct.pack(">5sBfff1s",b"#mled",i,int(leds[i].r),int(leds[i].g),int(leds[i].b),b"&")
                         send_log("send: change module leds color - n: "+str(i)+", r: "+str(int(leds[0].r))+", g: "+str(int(leds[0].g))+", b: "+str(int(leds[0].b)))
                         otv=struct.unpack(">4s",msg_exchange(msg))[0]
                         send_log("response: "+ str(otv, encoding='utf-8'))
