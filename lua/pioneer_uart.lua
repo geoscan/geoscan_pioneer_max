@@ -1,7 +1,7 @@
 local boardNumber = 4
 local firmwareVersion = "3.0/cfg"
 
-local uartNum = 4
+local uartNum = 1
 local baudRate = 9600 
 local stopBits = 1
 local parity = Uart.PARITY_NONE
