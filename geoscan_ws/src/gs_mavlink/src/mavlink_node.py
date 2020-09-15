@@ -17,6 +17,7 @@ MISSIN_COUNT=None
 TARGET_COMP=1
 MISSION_LIST=[]
 CUSTOM_MODE=0
+
 def start_mission(mission_list):
     global flight
     global MODE
@@ -49,7 +50,13 @@ try:
     led_b=BoardLedController()
     led_m=ModuleLedController()
     sensors=SensorManager()
-    log=Logger()
+    # log=Logger()
+
+    while not board.runStatus():
+        pass
+
+    rospy.loginfo("MAVLink Server ON")
+
     led_b.changeAllColor(0,0,0)
     led_m.changeAllColor(0,0,0)
     hostname=os.popen('ip addr show wlan0').read().split("inet ")[1].split("/")[0]
@@ -199,13 +206,13 @@ try:
                                 result=mavutil.mavlink.MAV_RESULT_ACCEPTED
                         )
                         MODE=mavutil.mavlink.MAV_MODE_GUIDED_DISARMED
-                        flight.preflight()
+                        flight.landing()
                     elif (msg.param1==1.0):
                         master.mav.command_ack_send(
                                 command=mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
                                 result=mavutil.mavlink.MAV_RESULT_ACCEPTED
                         )
                         MODE=mavutil.mavlink.MAV_MODE_GUIDED_ARMED
-                        flight.engines_disarm()
+                        flight.preflight()
 except:
     pass
