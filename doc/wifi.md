@@ -10,19 +10,7 @@ sudo systemctl restart config-wlan
 ```
 Если это не помогло или IP нужный:
 
-1. Перезагрузите dhcp сервер
-
-```
-sudo systemctl restart isc-dhcp-server
-```
-
-2. Перезагрузите саму точку
-
-```
-sudo systemctl restart hostapd
-```
-
-3. Перезагрузите RPi
+1. Перезагрузите RPi
 ```
 sudo reboot
 ```
