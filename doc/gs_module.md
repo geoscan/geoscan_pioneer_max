@@ -17,7 +17,7 @@
 Без параметров
 
 #### Поля:
-* __leds - list: gs_service.msg.RGBgs
+* __leds - list: std_msgs.msg.ColorRGBA
 * __alive - rospy.ServiceProxy: gs_service.srv.Live
 * __led_service - rospy.ServiceProxy: gs_service.srv.Led
 
@@ -36,7 +36,7 @@
 Без параметров
 
 #### Поля:
-* __leds - list: gs_service.msg.RGBgs
+* __leds - list: std_msgs.msg.ColorRGBA
 * __alive - rospy.ServiceProxy: gs_service.srv.Live
 * __led_service - rospy.ServiceProxy: gs_service.srv.Led
 
@@ -52,6 +52,7 @@
 ROS:
 * gs_service
 * gs_nodes
+* std_msgs
 
 ## Примечание:
 Все классы в данном пакете могут быть использованы только при запущеной ноде ros_serial_node.py из пакета gs_nodes

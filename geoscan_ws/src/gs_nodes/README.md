@@ -43,6 +43,8 @@
     * PySerial
 2. ROS:
     * gs_service
+    * geometry_msgs
+    * std_msgs
 
 ## Использование:
 

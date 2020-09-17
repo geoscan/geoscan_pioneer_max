@@ -4,10 +4,9 @@
 Данный пакет предоставляет набор типов сервисов и сообщений, необходимых для работы Geoscan Pioneer Max
 
 ## Состав пакета:
-1. Типы сообщений:
-    * RGBgs.msg
-2. Типы сервисов:
-    * Acl.srv
+1. Типы сервисов:
+    * Accel.srv
+    * Altitude.srv
     * Event.srv
     * Gyro.srv
     * Info.srv
@@ -17,10 +16,9 @@
     * LpsPos.srv
     * LpsVel.srv
     * LpsYaw.srv
-    * Ort.srv
-    * Pos.srv
-    * PosGPS.srv
+    * Orientation.srv
+    * Position.srv
+    * PositionGPS.srv
     * Range.srv
     * Time.srv
     * Yaw.srv
-    * Alt.srv

@@ -34,8 +34,8 @@
 * geoscan/alive (gs_service/Live)
 * geoscan/flight/event_service (gs_service/Event)
 * geoscan/flight/yaw (gs_service/Yaw)
-* geoscan/flight/local_position_service (gs_service/Pos)
-* geoscan/flight/gps_position_service (gs_service/PosGPS)
+* geoscan/flight/local_position_service (gs_service/Position)
+* geoscan/flight/gps_position_service (gs_service/PositionGPS)
 
 ## Необходимые пакеты:
 ROS:

@@ -24,10 +24,10 @@
 * __lpsvel_service - rospy.ServiceProxy: gs_service.srv.LpsVel
 * __lpsyaw_service - rospy.ServiceProxy: gs_service.srv.LpsYaw
 * __gyro_service - rospy.ServiceProxy: gs_service.srv.Gyro
-* __accel_service - rospy.ServiceProxy: gs_service.srv.Acl
-* __orientation_service - rospy.ServiceProxy: gs_service.srv.Ort
+* __accel_service - rospy.ServiceProxy: gs_service.srv.Accel
+* __orientation_service - rospy.ServiceProxy: gs_service.srv.Orientation
 * __range_service - rospy.ServiceProxy: gs_service.srv.Range
-* __altitude_service - rospy.ServiceProxy: gs_service.srv.Alt
+* __altitude_service - rospy.ServiceProxy: gs_service.srv.Altitude
 
 #### Методы:
 * lpsPosition - возвращает позицию в LPS координатах (x,y,z)
@@ -44,10 +44,10 @@
 * geoscan/sensors/lpsvel_service (gs_service/LpsVel)
 * geoscan/sensors/lpsyaw_service (gs_service/LpsYaw)
 * geoscan/sensors/gyro_service (gs_service/Gyro)
-* geoscan/sensors/accel_service (gs_service/Acl)
-* geoscan/sensors/orientation_service (gs_service/Ort)
+* geoscan/sensors/accel_service (gs_service/Accel)
+* geoscan/sensors/orientation_service (gs_service/Orientation)
 * geoscan/sensors/range_service (gs_service/Range)
-* geoscan/sensors/altitude_service (gs_service/Alt)
+* geoscan/sensors/altitude_service (gs_service/Altitude)
 
 ## Описание нод:
 
@@ -65,6 +65,7 @@
 ROS:
 * gs_service
 * gs_nodes
+* std_msgs
 
 ## Примечание:
 Все классы в данном пакете могут быть использованы только при запущеной ноде ros_serial_node.py из пакета gs_nodes
