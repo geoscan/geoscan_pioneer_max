@@ -15,7 +15,7 @@ GND | GND
 ### 4. Убедитесь, что в параметрах автопилота указан метод позиционирования OPT (или другое средство позиционирования)
 ### 5. Загрузите [программу](https://github.com/IlyaDanilenko/geoscan_pioneer_max/blob/master/lua/pioneer_uart.lua) в Пионер
 ### 6. Запустите программу на Пионере
-### 7. Подключитесь к RPi по ssh или через web-terminal
+### 7. Подключитесь к RPi по ssh или через [web-ssh](https://github.com/IlyaDanilenko/geoscan_pioneer_max/blob/master/doc/web-ssh.md#%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5)
 ### 8. Запустите систему
 ```
 roslaunch gs_nodes pioneer.launch --screen
