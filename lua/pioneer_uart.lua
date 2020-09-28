@@ -23,6 +23,7 @@ local range = Sensors.range
 local accel = Sensors.accel
 local rc = Sensors.rc
 local altitude = Sensors.altitude
+local power = Sensors.power
 
 local function color(r,g,b) 
     for i=0,3,1 do
@@ -203,6 +204,12 @@ local command={
     end,
     ["stts"]=function(data)
         write_msg(string.pack("> c3","oks"))
+    end,
+    ["powr"]=function(data)
+        local current = 0.0
+        local charge = 0.0
+        current,_,charge = power()
+        write_msg(string.pack("> c4 f f","powr",convert(current),convert(charge)))
     end
 }
 
