@@ -17,11 +17,11 @@
 
 #### Поля:
 * error_mumber - код ошибки
-* __alive - rospy.ServiceProxy: gs_service.srv.Live
-* __tm_service - rospy.ServiceProxy: gs_service.srv.Time
-* __dltm_service - rospy.ServiceProxy: gs_service.srv.Time
-* __lntm_service - rospy.ServiceProxy: gs_service.srv.Time
-* __info_service - rospy.ServiceProxy: gs_service.srv.Info
+* __alive - rospy.ServiceProxy: gs_interfaces.srv.Live
+* __tm_service - rospy.ServiceProxy: gs_interfaces.srv.Time
+* __dltm_service - rospy.ServiceProxy: gs_interfaces.srv.Time
+* __lntm_service - rospy.ServiceProxy: gs_interfaces.srv.Time
+* __info_service - rospy.ServiceProxy: gs_interfaces.srv.Info
 
 #### Методы:
 * runStatus - возвращает статус подключения RPi к Pioneer
@@ -31,14 +31,14 @@
 * launchTime - возвращает время запуска для системы навигации
 
 #### Используемые сервисы:
-* geoscan/board/info_service (gs_service/Info)
-* geoscan/board/time_service (gs_service/Time)
-* geoscan/board/delta_time_service (gs_service/Time)
-* geoscan/board/launch_time_service (gs_service/Time)
+* geoscan/board/info_service (gs_interfaces/Info)
+* geoscan/board/time_service (gs_interfaces/Time)
+* geoscan/board/delta_time_service (gs_interfaces/Time)
+* geoscan/board/launch_time_service (gs_interfaces/Time)
 
 ## Необходимые пакеты:
 ROS:
-* gs_service
+* gs_interfaces
 * gs_nodes
 
 ## Примечание:

@@ -16,11 +16,11 @@
 Без параметров
 
 #### Поля:
-* __alive - rospy.ServiceProxy: gs_service.srv.Live
-* __ev_service - rospy.ServiceProxy: gs_service.srv.Event
-* __yw_service - rospy.ServiceProxy: gs_service.srv.Yaw
-* __ps_service - rospy.ServiceProxy: gs_service.srv.Pos
-* __gps_service - rospy.ServiceProxy: gs_service.srv.PosGPS
+* __alive - rospy.ServiceProxy: gs_interfaces.srv.Live
+* __ev_service - rospy.ServiceProxy: gs_interfaces.srv.Event
+* __yw_service - rospy.ServiceProxy: gs_interfaces.srv.Yaw
+* __ps_service - rospy.ServiceProxy: gs_interfaces.srv.Position
+* __gps_service - rospy.ServiceProxy: gs_interfaces.srv.PositionGPS
 
 #### Методы:
 * goToLocalPoint(x,y,z,time) - приказывает автопилоту лететь в локальные координаты, x - координата точки по оси x, в метрах , y - координата точки по оси y, в метрах, z- координата точки по оси z, в метрах, time - время, за которое коптер перейдет в следующую точку, в секундах. Если значение не указано, коптер стремится к точке с максимальной скоростью
@@ -31,15 +31,15 @@
 * landing - приказывает выполнить посадку/заглушить двигатели
 
 #### Используемые сервисы:
-* geoscan/alive (gs_service/Live)
-* geoscan/flight/event_service (gs_service/Event)
-* geoscan/flight/yaw (gs_service/Yaw)
-* geoscan/flight/local_position_service (gs_service/Position)
-* geoscan/flight/gps_position_service (gs_service/PositionGPS)
+* geoscan/alive (gs_interfaces/Live)
+* geoscan/flight/event_service (gs_interfaces/Event)
+* geoscan/flight/yaw (gs_interfaces/Yaw)
+* geoscan/flight/local_position_service (gs_interfaces/Position)
+* geoscan/flight/gps_position_service (gs_interfaces/PositionGPS)
 
 ## Необходимые пакеты:
 ROS:
-* gs_service
+* gs_interfaces
 * gs_nodes
 
 ## Примечание:

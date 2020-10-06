@@ -15,7 +15,7 @@
 Без параметров
 
 #### Поля:
-* __log_service - rospy.ServiceProxy: gs_service.srv.Log
+* __log_service - rospy.ServiceProxy: gs_interfaces.srv.Log
 * __log_sub - rospy.Subscriber: std_msgs.msg.String
 * __msgs -  str
 
@@ -25,14 +25,14 @@
 * __callback - обработка топика
 
 #### Используемые сервисы:
-* geoscan/log_service (gs_service/Log)
+* geoscan/log_service (gs_interfaces/Log)
 
 #### Подписки:
 * geoscan/log_topic (std_msgs/String)
 
 ## Необходимые пакеты:
 ROS:
-* gs_service
+* gs_interfaces
 * gs_nodes
 * std_msgs
 

@@ -19,15 +19,15 @@
 Без параметров
 
 #### Поля:
-* __alive - rospy.ServiceProxy: gs_service.srv.Live
-* __lpspos_service - rospy.ServiceProxy: gs_service.srv.LpsPos
-* __lpsvel_service - rospy.ServiceProxy: gs_service.srv.LpsVel
-* __lpsyaw_service - rospy.ServiceProxy: gs_service.srv.LpsYaw
-* __gyro_service - rospy.ServiceProxy: gs_service.srv.Gyro
-* __accel_service - rospy.ServiceProxy: gs_service.srv.Accel
-* __orientation_service - rospy.ServiceProxy: gs_service.srv.Orientation
-* __range_service - rospy.ServiceProxy: gs_service.srv.Range
-* __altitude_service - rospy.ServiceProxy: gs_service.srv.Altitude
+* __alive - rospy.ServiceProxy: gs_interfaces.srv.Live
+* __lpspos_service - rospy.ServiceProxy: gs_interfaces.srv.LpsPos
+* __lpsvel_service - rospy.ServiceProxy: gs_interfaces.srv.LpsVel
+* __lpsyaw_service - rospy.ServiceProxy: gs_interfaces.srv.LpsYaw
+* __gyro_service - rospy.ServiceProxy: gs_interfaces.srv.Gyro
+* __accel_service - rospy.ServiceProxy: gs_interfaces.srv.Accel
+* __orientation_service - rospy.ServiceProxy: gs_interfaces.srv.Orientation
+* __range_service - rospy.ServiceProxy: gs_interfaces.srv.Range
+* __altitude_service - rospy.ServiceProxy: gs_interfaces.srv.Altitude
 
 #### Методы:
 * lpsPosition - возвращает позицию в LPS координатах (x,y,z)
@@ -40,14 +40,14 @@
 * altitude - возвращает данные высоты по барометру
 
 #### Используемые сервисы:
-* geoscan/sensors/lpspos_service (gs_service/LpsPos)
-* geoscan/sensors/lpsvel_service (gs_service/LpsVel)
-* geoscan/sensors/lpsyaw_service (gs_service/LpsYaw)
-* geoscan/sensors/gyro_service (gs_service/Gyro)
-* geoscan/sensors/accel_service (gs_service/Accel)
-* geoscan/sensors/orientation_service (gs_service/Orientation)
-* geoscan/sensors/range_service (gs_service/Range)
-* geoscan/sensors/altitude_service (gs_service/Altitude)
+* geoscan/sensors/lpspos_service (gs_interfaces/LpsPos)
+* geoscan/sensors/lpsvel_service (gs_interfaces/LpsVel)
+* geoscan/sensors/lpsyaw_service (gs_interfaces/LpsYaw)
+* geoscan/sensors/gyro_service (gs_interfaces/Gyro)
+* geoscan/sensors/accel_service (gs_interfaces/Accel)
+* geoscan/sensors/orientation_service (gs_interfaces/Orientation)
+* geoscan/sensors/range_service (gs_interfaces/Range)
+* geoscan/sensors/altitude_service (gs_interfaces/Altitude)
 
 ## Описание нод:
 
@@ -63,7 +63,7 @@
 
 ## Необходимые пакеты:
 ROS:
-* gs_service
+* gs_interfaces
 * gs_nodes
 * std_msgs
 
