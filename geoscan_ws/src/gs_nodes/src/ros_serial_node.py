@@ -22,7 +22,6 @@ from gs_interfaces.srv import Orientation,OrientationResponse
 from gs_interfaces.srv import Live
 from gs_interfaces.srv import Log,LogResponse
 from gs_interfaces.srv import Altitude,AltitudeResponse
-from gs_interfaces.srv import NavigationSystem,NavigationSystemResponse
 from gs_interfaces.msg import SimpleBatteryState,PointGPS
 from std_msgs.msg import Bool,String,ColorRGBA
 from geometry_msgs.msg import Point
