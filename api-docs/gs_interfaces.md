@@ -1,9 +1,13 @@
-## Описание пакета gs_service
+## Описание пакета gs_interfaces
 
 ## Описание
 Данный пакет предоставляет набор типов сервисов и сообщений, необходимых для работы Geoscan Pioneer Max
 
 ## Состав пакета:
+1. Типы сообщений:
+    * SimpleBatteryState
+    * PointGPS
+
 1. Типы сервисов:
     * Accel.srv
     * Altitude.srv
