@@ -4,16 +4,13 @@
 import rospy
 from gs_interfaces.srv import Time,Info,Live
 from gs_interfaces.msg import SimpleBatteryState
-from rospy import ServiceProxy,Subscriber
+from rospy import ServiceProxy
 from std_msgs.msg import Bool
 
 class BoardManager():
-    def __callback(self,data):
-        self.navigationSystem=data.navigation
 
     def __init__(self):
         self.error_number=-255.
-        self.navigationSystem=""
         rospy.wait_for_service("geoscan/alive")
         rospy.wait_for_service("geoscan/board/time_service")
         rospy.wait_for_service("geoscan/board/delta_time_service")
@@ -24,7 +21,6 @@ class BoardManager():
         self.__dltm_service=ServiceProxy("geoscan/board/delta_time_service",Time)
         self.__lntm_service=ServiceProxy("geoscan/board/launch_time_service",Time)
         self.__info_service=ServiceProxy("geoscan/board/info_service",Info)
-        self.__power_sub=Subscriber("geoscan/board/navigation_system",SimpleBatteryState,self.__callback)
     
     def runStatus(self):
         return self.__alive().status
