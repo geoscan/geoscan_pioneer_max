@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>gs_service</name>
+  <name>gs_interfaces</name>
   <version>0.0.0</version>
-  <description>The gs_service package</description>
+  <description>The gs_interfaces package</description>
 
   <maintainer email="ilya@eadsoft.com">Ilya Danilenko</maintainer>
 

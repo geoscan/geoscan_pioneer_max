@@ -4,7 +4,7 @@
 import rospy
 from rospy import ServiceProxy,Subscriber
 from std_msgs.msg import String
-from gs_service.srv import Log
+from gs_interfaces.srv import Log
 
 class Logger():
     def __callback(self,data):

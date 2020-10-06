@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from gs_service.srv import Led,Live
+from gs_interfaces.srv import Led,Live
 from rospy import ServiceProxy
 from std_msgs.msg import Bool,ColorRGBA
 

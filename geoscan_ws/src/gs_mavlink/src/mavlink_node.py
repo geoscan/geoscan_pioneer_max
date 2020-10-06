@@ -194,6 +194,7 @@ try:
                                 result=mavutil.mavlink.MAV_RESULT_DENIED 
                         )
                 elif(msg.command==mavutil.mavlink.MAV_CMD_NAV_TAKEOFF):
+                    print("TAKEOFF")
                     flight.takeoff()
                     master.mav.command_ack_send(
                             command=mavutil.mavlink.MAV_CMD_NAV_TAKEOFF,

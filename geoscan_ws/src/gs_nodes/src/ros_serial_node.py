@@ -5,23 +5,25 @@ import rospy
 import struct
 import serial
 from rospy import Service,Publisher
-from gs_service.srv import Event,EventResponse
-from gs_service.srv import Yaw,YawResponse
-from gs_service.srv import Position,PositionResponse
-from gs_service.srv import PositionGPS,PositionGPSResponse
-from gs_service.srv import Led,LedResponse
-from gs_service.srv import Info,InfoResponse
-from gs_service.srv import Time,TimeResponse
-from gs_service.srv import LpsPos,LpsPosResponse
-from gs_service.srv import LpsVel,LpsVelResponse
-from gs_service.srv import LpsYaw,LpsYawResponse
-from gs_service.srv import Range,RangeResponse
-from gs_service.srv import Gyro,GyroResponse
-from gs_service.srv import Accel,AccelResponse
-from gs_service.srv import Orientation,OrientationResponse
-from gs_service.srv import Live
-from gs_service.srv import Log,LogResponse
-from gs_service.srv import Altitude,AltitudeResponse
+from gs_interfaces.srv import Event,EventResponse
+from gs_interfaces.srv import Yaw,YawResponse
+from gs_interfaces.srv import Position,PositionResponse
+from gs_interfaces.srv import PositionGPS,PositionGPSResponse
+from gs_interfaces.srv import Led,LedResponse
+from gs_interfaces.srv import Info,InfoResponse
+from gs_interfaces.srv import Time,TimeResponse
+from gs_interfaces.srv import LpsPos,LpsPosResponse
+from gs_interfaces.srv import LpsVel,LpsVelResponse
+from gs_interfaces.srv import LpsYaw,LpsYawResponse
+from gs_interfaces.srv import Range,RangeResponse
+from gs_interfaces.srv import Gyro,GyroResponse
+from gs_interfaces.srv import Accel,AccelResponse
+from gs_interfaces.srv import Orientation,OrientationResponse
+from gs_interfaces.srv import Live
+from gs_interfaces.srv import Log,LogResponse
+from gs_interfaces.srv import Altitude,AltitudeResponse
+from gs_interfaces.srv import NavigationSystem,NavigationSystemResponse
+from gs_interfaces.msg import SimpleBatteryState,PointGPS
 from std_msgs.msg import Bool,String,ColorRGBA
 from geometry_msgs.msg import Point
 from time import sleep,time
@@ -96,8 +98,20 @@ def msg_exchange(msg):
 
 def heartbeat():
     global last_check_time
+    global battery_pub
     if (time()-last_check_time>3.0):
-        msg_exchange(struct.pack(">6s",b'#stts&'))
+        status=msg_exchange(struct.pack(">6s",b'#stts&'))
+        if(status==b'oks'):
+            try:
+                l,current,charge=struct.unpack(">4sff",msg_exchange(struct.pack(">6s",b'#powr&')))
+                if(l == b'powr'):
+                    state=SimpleBatteryState()
+                    state.header.stamp=rospy.Time.now()
+                    state.current=current
+                    state.change=charge
+                    battery_pub.publish(state)
+            except:
+                pass
 
 def read_event():
     global ser
@@ -205,7 +219,7 @@ def handle_local_pos(req):
 
 def handle_gps_pos(req):
     global sost_gps_pos
-    n_s=[req.latitude,req.longitude,req.altitude]
+    n_s=[req.position.latitude,req.position.longitude,req.position.altitude]
     try:
         if(n_s!=sost_gps_pos):
             msg=struct.pack(">5sfff1s",b"#gtpg",round(n_s[0],2),round(n_s[1],2),round(n_s[2],2),b"&")
@@ -464,11 +478,11 @@ def handle_alt(req):
     except:
         pass
     return AltitudeResponse(0.)
-
+    
 alive=Service("geoscan/alive",Live,handle_live)
 logger=Service("geoscan/log_service",Log,handle_log)
 logger_pub=Publisher("geoscan/log_topic",String,queue_size=10)
-
+battery_pub=Publisher("geoscan/battery_state",SimpleBatteryState,queue_size=10)
 s_ew=Service("geoscan/flight/event_service",Event,handle_event)
 s_yw=Service("geoscan/flight/yaw",Yaw,handle_yaw)
 s_ps=Service("geoscan/flight/local_position_service",Position,handle_local_pos)

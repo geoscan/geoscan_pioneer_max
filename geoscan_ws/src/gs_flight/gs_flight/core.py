@@ -5,7 +5,8 @@ import rospy
 from rospy import ServiceProxy
 from std_msgs.msg import Bool
 from geometry_msgs.msg import Point
-from gs_service.srv import Event,Yaw,Position,PositionGPS,Live
+from gs_interfaces.srv import Event,Yaw,Position,PositionGPS,Live
+from gs_interfaces.msg import PointGPS
 
 """
 0-preflight
@@ -15,7 +16,7 @@ from gs_service.srv import Event,Yaw,Position,PositionGPS,Live
 """
 
 class FlightController():
-
+    
     def __init__(self):
         rospy.wait_for_service("geoscan/alive")
         rospy.wait_for_service("geoscan/flight/event_service")
@@ -44,7 +45,11 @@ class FlightController():
     def goToPoint(self,latitude,longitude,altitude):
         if(self.__alive().status):
             while True:
-                status=self.__gps_service(latitude,longitude,altitude).status
+                point_gps=PointGPS()
+                point_gps.latitude=latitude
+                point_gps.longitude=longitude
+                point_gps.altitude=altitude
+                status=self.__gps_service(point_gps).status
                 if(status):
                     break
         else:

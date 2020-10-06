@@ -2,14 +2,18 @@
 # -*- coding: utf-8 -*-
 
 import rospy
-from gs_service.srv import LpsPos,LpsVel,LpsYaw,Gyro,Accel,Orientation,Live,Range,Altitude
+from gs_interfaces.srv import LpsPos,LpsVel,LpsYaw,Gyro,Accel,Orientation,Live,Range,Altitude
+from gs_interfaces.msg import SimpleBatteryState
 from geometry_msgs.msg import Point
-from rospy import ServiceProxy
+from rospy import ServiceProxy,Subscriber
 from std_msgs.msg import Bool
 
 class SensorManager():
+    def __callback(self,data):
+        self.__battery_state=data
+
     def __init__(self):
-        self.error_number=0.
+        self.error_number=-255.
         rospy.wait_for_service("geoscan/alive")
         rospy.wait_for_service("geoscan/sensors/lpspos_service")
         rospy.wait_for_service("geoscan/sensors/lpsvel_service")
@@ -27,6 +31,8 @@ class SensorManager():
         self.__orientation_service=ServiceProxy("geoscan/sensors/orientation_service",Orientation)
         self.__range_service=ServiceProxy("geoscan/sensors/range_service",Range)
         self.__altitude_service=ServiceProxy("geoscan/sensors/altitude_service",Altitude)
+        self.__battery_state=SimpleBatteryState()
+        self.__power_sub=Subscriber("geoscan/battery_state",SimpleBatteryState,self.__callback)
 
     def lpsPosition(self):
         if(self.__alive().status):
@@ -89,3 +95,6 @@ class SensorManager():
         else:
             rospy.loginfo("Wait, connecting to flight controller")
             return self.error_number,self.error_number,self.error_number,self.error_number,self.error_number
+
+    def power(self):
+        return self.__battery_state.current,self.__battery_state.charge,self.__battery_state.secs
