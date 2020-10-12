@@ -24,6 +24,8 @@ local accel = Sensors.accel
 local rc = Sensors.rc
 local altitude = Sensors.altitude
 local power = Sensors.power
+local gnssInfo = Sensors.gnssInfo
+local gnssPosition = Sensors.gnssPosition
 
 local function color(r,g,b) 
     for i=0,3,1 do
@@ -210,6 +212,18 @@ local command={
         local charge = 0.0
         current,_,charge = power()
         write_msg(string.pack("> c4 f f","powr",convert(current),convert(charge)))
+    end,
+    ["gpsi"]=function(data)
+       local info = 0.0
+       info = gnssInfo()
+       write_msg(string.pack("> c4 f","gpsi",convert(info)))
+    end,
+    ["gpsp"]=function(data)
+       local latitude = 0.0
+       local longitude = 0.0
+       local azimuth = 0.0
+       latitude, longitude, azimuth = gnssPosition()
+       write_msg(string.pack("> c4 f f f","gpsp",convert(latitude),convert(longitude),convert(azimuth)))
     end
 }
 
