@@ -1,7 +1,7 @@
 local boardNumber = 4
 local firmwareVersion = "3.0/cfg"
 
-local uartNum = 1
+local uartNum = 4
 local baudRate = 9600 
 local stopBits = 1
 local parity = Uart.PARITY_NONE
@@ -19,13 +19,15 @@ local lpsVelocity = Sensors.lpsVelocity
 local lpsYaw = Sensors.lpsYaw
 local gyro=Sensors.gyro
 local orientation = Sensors.orientation
-local range = Sensors.range
+local opticalFlow = Sensors.range
 local accel = Sensors.accel
 local rc = Sensors.rc
 local altitude = Sensors.altitude
 local power = Sensors.power
 local gnssInfo = Sensors.gnssInfo
 local gnssPosition = Sensors.gnssPosition
+
+local magnet = Gpio.new(Gpio.C, 3, Gpio.OUTPUT)
 
 local function color(r,g,b) 
     for i=0,3,1 do
@@ -185,14 +187,13 @@ local command={
         gx, gy, gz = gyro()
         write_msg(string.pack("> c4 f f f","gyro",gx,gy,gz))
     end,
-    ["rnge"]=function(data)
-        local r1=0.0
-        local r2=0.0
-        local r3=0.0
-        local r4=0.0
-        local r5=0.0
-        d1,d2,d3,d4,d5=range()
-        write_msg(string.pack("> c4 f f f f f","rnge",convert(r1),convert(r2),convert(r3),convert(r4),convert(r5)))
+    ["optv"]=function(data)
+        local optXVel=0.0
+        local optYVel=0.0
+        local optH=0.0
+        local optStatus=0.0
+        optH,optXVel,optYVel,optStatus=opticalFlow()
+        write_msg(string.pack("> c4 f f f I1","optv",convert(optH),convert(optYVel),convert(optYVel),convert(optStatus)))
     end,
     ["altd"]=function(data)
         local h=0.0
@@ -200,9 +201,10 @@ local command={
         write_msg(string.pack("> c4 f","altd",h))
     end,
     ["strt"]=function(data)
-        write_msg(string.pack("> c4 f","nsys",convert(getNavSystem())))
+        write_msg(string.pack("> c4 I1","nsys",getNavSystem()))
         color(0,0,0)
         lcolor(0,0,0)
+        magnet:reset()
     end,
     ["stts"]=function(data)
         write_msg(string.pack("> c3","oks"))
@@ -216,7 +218,7 @@ local command={
     ["gpsi"]=function(data)
        local info = 0.0
        info = gnssInfo()
-       write_msg(string.pack("> c4 f","gpsi",convert(info)))
+       write_msg(string.pack("> c4 I1","gpsi",info))
     end,
     ["gpsp"]=function(data)
        local latitude = 0.0
@@ -224,6 +226,16 @@ local command={
        local azimuth = 0.0
        latitude, longitude, azimuth = gnssPosition()
        write_msg(string.pack("> c4 f f f","gpsp",convert(latitude),convert(longitude),convert(azimuth)))
+    end,
+    ["crgo"]=function(data)
+        local mag=0
+        mag=string.unpack("> I1",data)
+        if mag == 0 then
+            magnet:reset()
+        else
+            magnet:set()
+        end
+        write_msg(string.pack("> c4","crgo"))
     end
 }
 
@@ -258,4 +270,5 @@ t = Timer.new(sync, takeFunc)
 -- write_msg(string.pack("> c3","okp"))
 color(0,0,0)
 lcolor(0,0,0)
+magnet:reset()
 t:start()
