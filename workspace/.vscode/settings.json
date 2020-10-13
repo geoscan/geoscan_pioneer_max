@@ -1,8 +1,0 @@
-{
-    "python.pythonPath": "/usr/bin/python3.6",
-    "python.autoComplete.extraPaths": [
-        "/opt/ros/melodic/lib/python2.7/dist-packages",
-        "/home/ubuntu/geoscan_ws/devel/lib/python3/dist-packages"
-    ],
-    "ros.distro": "melodic"
-}

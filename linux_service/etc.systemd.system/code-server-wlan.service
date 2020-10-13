@@ -1,8 +1,0 @@
-[Unit]
-Description=Code Server
-
-[Service]
-ExecStart=/home/ubuntu/code-server/start-wlan.sh
-
-[Install]
-WantedBy=multi-user.target

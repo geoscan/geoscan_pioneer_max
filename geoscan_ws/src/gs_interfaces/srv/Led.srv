@@ -1,5 +1,0 @@
-std_msgs/ColorRGBA[] leds
-
----
-
-bool status

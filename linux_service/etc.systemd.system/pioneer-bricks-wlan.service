@@ -1,8 +1,0 @@
-[Unit]
-Description=Geoscan Pioneer Bricks
-
-[Service]
-ExecStart=/home/ubuntu/pioneer-bricks/start-wlan.sh
-
-[Install]
-WantedBy=multi-user.target
