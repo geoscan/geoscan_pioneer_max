@@ -55,3 +55,6 @@
 [submodule "geoscan_ws2/src/gs_sensors"]
 	path = geoscan_ws2/src/gs_sensors
 	url = https://github.com/IlyaDanilenko/gs_sensors
+[submodule "geoscan_ws/src/gs_vision"]
+	path = geoscan_ws/src/gs_vision
+	url = https://github.com/IlyaDanilenko/gs_vision
