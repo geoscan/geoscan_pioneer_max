@@ -2,12 +2,12 @@
 
 ### 1. Убедитесь, что RPi подключена к пионеру
 
-![Пример подключения UART1 к Raspberry Pi](https://github.com/IlyaDanilenko/pioneer-raspuart/blob/master/imgs/uart1.png?raw=true)
+![Пример подключения UART1 к Raspberry Pi](https://github.com/IlyaDanilenko/pioneer-raspuart/blob/master/imgs/uart4.png?raw=true)
 
 Raspberry Pi | Pioneer
 ------------ | -------------
-TX (08) | RX (Разъем X1, пин 5)
-RX (10) | TX (Разъем X1, пин 6)
+TX (08) | RX (Разъем X2, пин 4)
+RX (10) | TX (Разъем X2, пин 3)
 GND | GND
 
 ### 2. Убедитесь, что на базовой плате пионера стоит автопилот версии 1.4
