@@ -22,3 +22,9 @@
 [submodule "geoscan_ws2/src/gs_example"]
 	path = geoscan_ws2/src/gs_example
 	url = https://github.com/IlyaDanilenko/gs_example
+[submodule "geoscan_ws2/src/gs_logger"]
+	path = geoscan_ws2/src/gs_logger
+	url = https://github.com/IlyaDanilenko/gs_logger
+[submodule "geoscan_ws/src/gs_logger"]
+	path = geoscan_ws/src/gs_logger
+	url = https://github.com/IlyaDanilenko/gs_logger
