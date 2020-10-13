@@ -4,3 +4,9 @@
 [submodule "pioneer-bricks"]
 	path = pioneer-bricks
 	url = https://github.com/IlyaDanilenko/pioneer-bricks
+[submodule "geoscan_ws/src/gs_interfaces"]
+	path = geoscan_ws/src/gs_interfaces
+	url = https://github.com/IlyaDanilenko/gs_interfaces
+[submodule "geoscan_ws2/src/gs_interfaces"]
+	path = geoscan_ws2/src/gs_interfaces
+	url = https://github.com/IlyaDanilenko/gs_interfaces
