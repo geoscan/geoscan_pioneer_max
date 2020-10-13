@@ -1,3 +1,6 @@
 [submodule "web-menu"]
 	path = web-menu
 	url = https://github.com/IlyaDanilenko/web-menu
+[submodule "pioneer-bricks"]
+	path = pioneer-bricks
+	url = https://github.com/IlyaDanilenko/pioneer-bricks
