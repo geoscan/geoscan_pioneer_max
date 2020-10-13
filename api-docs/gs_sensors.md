@@ -66,6 +66,7 @@ ROS:
 * gs_interfaces
 * gs_nodes
 * std_msgs
+* geometry_msgs
 
 ## Примечание:
 Все классы в данном пакете могут быть использованы только при запущеной ноде ros_serial_node.py из пакета gs_nodes
