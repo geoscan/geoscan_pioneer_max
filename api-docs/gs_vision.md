@@ -8,7 +8,6 @@
     * apriltag_node.py
     * aruco_node.py
     * qrcode_node.py
-    * pycamera_node.py
 2. Файлы запуска:
     * apriltag_test.launch - пример запуска apriltag_node
     * aruco_test.launch - пример запуска aruco_node
@@ -27,9 +26,9 @@
     * apriltag
     * pyzbar
 2. ROS:
-    * ros-melodic-cv-bridge (собранный для Python3)
-    * ros-melodic-cv-camera
-    * ros-melodic-sensor-msgs
+    * cv_bridge
+    * cv_camera
+    * sensors_msg
 
 ## Описание нод:
 
