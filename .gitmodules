@@ -37,3 +37,9 @@
 [submodule "geoscan_ws/src/gs_board"]
 	path = geoscan_ws/src/gs_board
 	url = https://github.com/IlyaDanilenko/gs_board
+[submodule "geoscan_ws/src/gs_module"]
+	path = geoscan_ws/src/gs_module
+	url = https://github.com/IlyaDanilenko/gs_module
+[submodule "geoscan_ws2/src/gs_module"]
+	path = geoscan_ws2/src/gs_module
+	url = https://github.com/IlyaDanilenko/gs_module
