@@ -43,3 +43,9 @@
 [submodule "geoscan_ws2/src/gs_module"]
 	path = geoscan_ws2/src/gs_module
 	url = https://github.com/IlyaDanilenko/gs_module
+[submodule "geoscan_ws/src/gs_nodes"]
+	path = geoscan_ws/src/gs_nodes
+	url = https://github.com/IlyaDanilenko/gs_nodes
+[submodule "geoscan_ws2/src/gs_nodes"]
+	path = geoscan_ws2/src/gs_nodes
+	url = https://github.com/IlyaDanilenko/gs_nodes
