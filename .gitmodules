@@ -28,9 +28,6 @@
 [submodule "geoscan_ws/src/gs_logger"]
 	path = geoscan_ws/src/gs_logger
 	url = https://github.com/IlyaDanilenko/gs_logger
-[submodule "geoscan_ws/src/gs_board"]
-	path = geoscan_ws/src/gs_board
-	url = https://github.com/IlyaDanilenko/gs_board
 [submodule "geoscan_ws2/src/gs_board"]
 	path = geoscan_ws2/src/gs_board
 	url = https://github.com/IlyaDanilenko/gs_board
