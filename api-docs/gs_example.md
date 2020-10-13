@@ -26,7 +26,7 @@
     * gs_sensors
 2. ROS:
     * gs_nodes
-    * gs_service
+    * gs_interfaces
 
 ## Примечание:
 Для работы всех нод в данном примере необходима запушенная нода ros_serial_node.py из пакета gs_nodes
