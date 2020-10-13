@@ -16,3 +16,9 @@
 [submodule "geoscan_ws/src/gs_flight"]
 	path = geoscan_ws/src/gs_flight
 	url = https://github.com/IlyaDanilenko/gs_flight
+[submodule "geoscan_ws/src/gs_example"]
+	path = geoscan_ws/src/gs_example
+	url = https://github.com/IlyaDanilenko/gs_example
+[submodule "geoscan_ws2/src/gs_example"]
+	path = geoscan_ws2/src/gs_example
+	url = https://github.com/IlyaDanilenko/gs_example
