@@ -34,3 +34,6 @@
 [submodule "geoscan_ws2/src/gs_board"]
 	path = geoscan_ws2/src/gs_board
 	url = https://github.com/IlyaDanilenko/gs_board
+[submodule "geoscan_ws/src/gs_mavlink"]
+	path = geoscan_ws/src/gs_mavlink
+	url = https://github.com/IlyaDanilenko/gs_mavlink
