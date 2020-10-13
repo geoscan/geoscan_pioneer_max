@@ -1,0 +1,3 @@
+[submodule "web-menu"]
+	path = web-menu
+	url = https://github.com/IlyaDanilenko/web-menu
