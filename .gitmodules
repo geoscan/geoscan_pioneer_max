@@ -37,3 +37,6 @@
 [submodule "geoscan_ws/src/gs_camera"]
 	path = geoscan_ws/src/gs_camera
 	url = https://github.com/IlyaDanilenko/gs_camera
+[submodule "geoscan_ws/src/rospioneer"]
+	path = geoscan_ws/src/rospioneer
+	url = https://github.com/IlyaDanilenko/rospioneer
