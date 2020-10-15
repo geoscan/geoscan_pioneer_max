@@ -1,45 +1,9 @@
-[submodule "web-menu"]
-	path = web-menu
-	url = https://github.com/IlyaDanilenko/web-menu
-[submodule "pioneer-bricks"]
-	path = pioneer-bricks
-	url = https://github.com/IlyaDanilenko/pioneer-bricks
-[submodule "geoscan_ws/src/gs_interfaces"]
-	path = geoscan_ws/src/gs_interfaces
-	url = https://github.com/IlyaDanilenko/gs_interfaces
-[submodule "geoscan_ws/src/gs_flight"]
-	path = geoscan_ws/src/gs_flight
-	url = https://github.com/IlyaDanilenko/gs_flight
-[submodule "geoscan_ws/src/gs_example"]
-	path = geoscan_ws/src/gs_example
-	url = https://github.com/IlyaDanilenko/gs_example
-[submodule "geoscan_ws/src/gs_logger"]
-	path = geoscan_ws/src/gs_logger
-	url = https://github.com/IlyaDanilenko/gs_logger
-[submodule "geoscan_ws/src/gs_mavlink"]
-	path = geoscan_ws/src/gs_mavlink
-	url = https://github.com/IlyaDanilenko/gs_mavlink
-[submodule "geoscan_ws/src/gs_board"]
-	path = geoscan_ws/src/gs_board
-	url = https://github.com/IlyaDanilenko/gs_board
-[submodule "geoscan_ws/src/gs_module"]
-	path = geoscan_ws/src/gs_module
-	url = https://github.com/IlyaDanilenko/gs_module
-[submodule "geoscan_ws/src/gs_nodes"]
-	path = geoscan_ws/src/gs_nodes
-	url = https://github.com/IlyaDanilenko/gs_nodes
-[submodule "geoscan_ws/src/gs_sensors"]
-	path = geoscan_ws/src/gs_sensors
-	url = https://github.com/IlyaDanilenko/gs_sensors
-[submodule "geoscan_ws/src/gs_vision"]
-	path = geoscan_ws/src/gs_vision
-	url = https://github.com/IlyaDanilenko/gs_vision
 [submodule "geoscan_ws2/src/gs_sensors"]
 	path = geoscan_ws2/src/gs_sensors
 	url = https://github.com/IlyaDanilenko/gs_sensors
-[submodule "geoscan_ws2/src/gs_nodes"]
-	path = geoscan_ws2/src/gs_nodes
-	url = https://github.com/IlyaDanilenko/gs_nodes
+[submodule "geoscan_ws2/src/gs_core"]
+	path = geoscan_ws2/src/gs_core
+	url = https://github.com/IlyaDanilenko/gs_core
 [submodule "geoscan_ws2/src/gs_interfaces"]
 	path = geoscan_ws2/src/gs_interfaces
 	url = https://github.com/IlyaDanilenko/gs_interfaces
