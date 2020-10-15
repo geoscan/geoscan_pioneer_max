@@ -18,7 +18,7 @@ GND | GND
 ### 7. Подключитесь к RPi по ssh или через [web-ssh](https://github.com/IlyaDanilenko/geoscan_pioneer_max/blob/master/guides/web-ssh.md)
 ### 8. Запустите систему
 ```
-roslaunch gs_nodes pioneer.launch --screen
+roslaunch gs_core pioneer.launch --screen
 ```
 
 дождитесь пока консоль выведет

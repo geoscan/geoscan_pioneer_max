@@ -9,6 +9,6 @@
  * [gs_logger](https://github.com/IlyaDanilenko/gs_logger/blob/noetic/README.md)
  * [gs_mavlink](https://github.com/IlyaDanilenko/gs_mavlink/blob/noetic/README.md)
  * [gs_module](https://github.com/IlyaDanilenko/gs_module/blob/noetic/README.md)
- * [gs_nodes](https://github.com/IlyaDanilenko/gs_nodes/blob/noetic/README.md)
+ * [gs_core](https://github.com/IlyaDanilenko/gs_core/blob/noetic/README.md)
  * [gs_sensors](https://github.com/IlyaDanilenko/gs_sensors/blob/noetic/README.md)
  * [gs_vision](https://github.com/IlyaDanilenko/gs_vision/blob/noetic/README.md)
