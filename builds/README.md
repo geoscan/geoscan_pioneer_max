@@ -1,11 +1,11 @@
 # Образы
 Действующие:
 Автопилот 1.5.7+
-* [Raspberry Pi v1.1.1 (ubuntu-20.04, arm64, noetic-bare-bones)](https://yadi.sk/d/rRS0mBd51MbTXw)
+* [Raspberry Pi v1.1.1 (ubuntu-20.04, arm64, noetic-bare-bones, rospioneer-updateble)](https://yadi.sk/d/rRS0mBd51MbTXw)
 
 Устаревшие:
 Автопилот 1.4-1.5.6: (возможно обновление через [rospioneer](https://github.com/IlyaDanilenko/rospioneer))
-* [Raspberry Pi v1.0.1 (ubuntu-20.04, arm64, noetic-bare-bones)](https://drive.google.com/file/d/18UsvT8sUgEMAYveynlOVlfvjw4WkISDM/view?usp=sharing)
+* [Raspberry Pi v1.0.1 (ubuntu-20.04, arm64, noetic-bare-bones, rospioneer-updateble)](https://drive.google.com/file/d/18UsvT8sUgEMAYveynlOVlfvjw4WkISDM/view?usp=sharing)
 
 ROS melodic
 * [Raspberry Pi (ubuntu-18.04, arm64, melodic-bare-bones)](https://1drv.ms/u/s!Ao6apD9z3iUVgs0in0hj65Ss8-7OzA?e=dxgbV1)
