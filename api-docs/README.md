@@ -13,4 +13,5 @@
  * [gs_sensors](https://github.com/IlyaDanilenko/gs_sensors/blob/noetic/README.md)
  * [gs_vision](https://github.com/IlyaDanilenko/gs_vision/blob/noetic/README.md)
  * [gs_camera](https://github.com/IlyaDanilenko/gs_camera/blob/noetic/README.md)
+ * [gs_navigation](https://github.com/IlyaDanilenko/gs_navigation/blob/noetic/README.md)
  * [rospioneer](https://github.com/IlyaDanilenko/rospioneer/blob/noetic/README.md)
