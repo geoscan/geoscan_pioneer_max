@@ -40,3 +40,6 @@
 [submodule "geoscan_ws/src/rospioneer"]
 	path = geoscan_ws/src/rospioneer
 	url = https://github.com/IlyaDanilenko/rospioneer
+[submodule "geoscan_ws/src/gs_navigation"]
+	path = geoscan_ws/src/gs_navigation
+	url = https://github.com/IlyaDanilenko/gs_navigation.git
