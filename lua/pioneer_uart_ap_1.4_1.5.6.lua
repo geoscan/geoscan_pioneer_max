@@ -208,7 +208,6 @@ local command={
     ["powr"]=function(data)
         local current = 0.0
         local charge = 0.0
-        current,_,charge = power()
         write_msg(string.pack("> c4 f f","powr",convert(current),convert(charge)))
     end
 }
@@ -241,7 +240,7 @@ function callback(event)
 end
 
 t = Timer.new(sync, takeFunc)
--- write_msg(string.pack("> c3","okp"))
+write_msg(string.pack("> c3","okp"))
 color(0,0,0)
 lcolor(0,0,0)
 t:start()
