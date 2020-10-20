@@ -23,7 +23,6 @@ local range = Sensors.range
 local accel = Sensors.accel
 local rc = Sensors.rc
 local altitude = Sensors.altitude
-local power = Sensors.power
 
 local function color(r,g,b) 
     for i=0,3,1 do
