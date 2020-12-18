@@ -8,8 +8,7 @@
 
 ### Beta версии:
 Автопилот 1.5.7109+
-* [Raspberry Pi v2.0.0-beta4 (ubuntu-20.04, arm64, noetic-bare-bones, rospioneer-updateble, plazlink)](https://yadi.sk/d/gDtHWkKSVs4YhA)
-* [Raspberry Pi v2.0.0-beta4 (ubuntu-20.04, arm64, noetic-bare-bones, rospioneer-updateble, plazlink, tensorflow-lite runtime)](https://yadi.sk/d/65eUu1_cjdz_Kw)
+* [Raspberry Pi v2.0.0-beta4.5 (ubuntu-20.04, arm64, noetic-bare-bones, rospioneer-updateble, plazlink, tensorflow-lite runtime)](https://yadi.sk/d/BFMe07I5Iex3aA)
 
 ### Устаревшие:
 ROS melodic (Не поддерживается)
