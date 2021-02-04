@@ -20,6 +20,10 @@ GND | GND
 ```
 roslaunch gs_core pioneer.launch --screen
 ```
+или
+```
+rospioneer start
+```
 
 дождитесь пока консоль выведет
 ```
