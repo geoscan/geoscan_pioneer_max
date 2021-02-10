@@ -11,6 +11,8 @@
 sudo systemctl disable config-wlan
 sudo systemctl stop isc-dhcp-server
 sudo systemctl disable isc-dhcp-server
+sudo systemctl stop hosatpd
+sudo systemctl disable hostapd
 sudo systemctl enable NetworkManager
 sudo systemctl start NetworkManager
 ```
@@ -23,4 +25,6 @@ sudo systemctl enable config-wlan
 sudo systemctl start config-wlan
 sudo systemctl enable isc-dhcp-server
 sudo systemctl start isc-dhcp-server
+sudo systemctl enable hostapd
+sudo systemctl start hostapd
 ```
