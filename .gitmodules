@@ -43,3 +43,6 @@
 [submodule "geoscan_ws/src/gs_navigation"]
 	path = geoscan_ws/src/gs_navigation
 	url = https://github.com/IlyaDanilenko/gs_navigation.git
+[submodule "ws281x_socket"]
+	path = ws281x_socket
+	url = https://github.com/geoscan/ws281x_socket.git
