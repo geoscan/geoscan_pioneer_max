@@ -46,3 +46,6 @@
 [submodule "ws281x_socket"]
 	path = ws281x_socket
 	url = https://github.com/geoscan/ws281x_socket.git
+[submodule "mission-control"]
+	path = mission-control
+	url = https://github.com/geoscan/mission-control.git
