@@ -1,3 +1,3 @@
 # Инструкция по загрузке образа
 
-* [Инструкция (Windows)](https://1drv.ms/w/s!Ao6apD9z3iUVgsNbQtcmvjNb9LrOOQ?e=NhOXjM)
+* [Инструкция](https://pioneer-doc.readthedocs.io/ru/master/instructions/pioneer-max/first_launch/install_image.html)
